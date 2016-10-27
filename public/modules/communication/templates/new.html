@@ -1,0 +1,143 @@
+<script type="text/ng-template" id=".new">
+	<div></div>
+</script>
+<script type="text/ng-template" id="options.new">
+	<div class="timeline-panel panel inverted panel-default">
+		<div class="panel-heading">
+			<h4 class="panel-title">New Communication</h4>
+		</div>
+		<ul class="list-group">
+			<a class="list-group-item" ng-click="tools.new('call')">Call</a>
+			<a class="list-group-item" ng-click="tools.new('sms')">SMS</a>
+			<a class="list-group-item" ng-click="tools.new('email')">Email</a>
+			<a class="list-group-item" ng-click="tools.new('fax')">Fax</a>
+			<a class="list-group-item" ng-click="tools.new('snail')">Snail</a>
+			<a class="list-group-item" ng-click="alert('Comming Soon')">Social Media</a>
+		</ul>
+	</div>
+</script>
+<script type="text/ng-template" id="call.new">
+	<div class="timeline-panel panel inverted panel-default">
+		<div class="panel-heading">
+			<h4 class="panel-title">New Call</h4>
+		</div>
+		<ul class="list-group">
+			<li class="list-group-item"><select class="form-control" placeholder="From" ng-options="n.number as n.number+' '+n.title for n in phoneNumbers" ng-model="newComm.data.localNumber"></select></li>
+			<li class="list-group-item"><input type="tel" class="form-control" placeholder="To" ng-model="newComm.data.remoteNumber"></li>
+		</ul>
+		<div class="panel-footer clearfix">
+			<a class="btn btn-success pull-right">Call</a>
+		</div>
+	</div>
+</script>
+<script type="text/ng-template" id="sms.new">
+	<div class="timeline-panel panel inverted panel-default">
+		<div class="panel-heading">
+			<h4 class="panel-title">New SMS</h4>
+		</div>
+		<ul class="list-group">
+			<li class="list-group-item"><select class="form-control" placeholder="From" ng-options="n.number as n.number+' '+n.title for n in phoneNumbers" ng-model="newComm.data.localNumber"></select></li>
+			<li class="list-group-item"><input type="tel" class="form-control" placeholder="To" ng-model="newComm.data.remoteNumber"></li>
+			<li class="list-group-item"><textarea class="form-control" placeholder="Message" ng-model="newComm.data.message"></textarea></li>
+		</ul>
+		<div class="panel-footer clearfix">
+			<a class="btn btn-success pull-right" ng-click="tools.sms.send(newComm.data)">Send</a>
+		</div>
+	</div>
+</script>
+<script type="text/ng-template" id="email.new">
+	<div class="timeline-panel panel inverted panel-default">
+		<div class="panel-heading">
+			<h4 class="panel-title">New Email</h4>
+		</div>
+		<ul class="list-group">
+			<li class="list-group-item"><input type="email" class="form-control" placeholder="To" ng-model="newComm.data.remoteEmail"></li>
+			<li class="list-group-item"><input type="text" class="form-control" placeholder="Subject" ng-model="newComm.data.subject"></li>
+			<li class="list-group-item"><textarea class="form-control" placeholder="Message" ng-model="newComm.data.message"></textarea></li>
+		</ul>
+		<div class="panel-footer clearfix">
+			<a class="btn btn-success pull-right" ng-click="tools.email.send(newComm.data)">Send</a>
+		</div>
+	</div>
+</script>
+<script type="text/ng-template" id="fax.new">
+	<div class="panel panel-default" style="margin-top:17px;">
+		<div class="panel-heading">
+			<h4 class="panel-title">New Fax</h4>
+		</div>
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-md-6">
+					<ul class="list-group">
+						<li class="list-group-item"><select class="form-control" placeholder="From" ng-options="n.number as n.number+' '+n.title for n in faxNumbers" ng-model="newComm.data.localNumber"></select></li>
+						<li class="list-group-item"><input type="tel" class="form-control" placeholder="To" ng-model="newComm.data.remoteNumber"></li>
+						<li class="list-group-item"><input type="text" class="form-control" placeholder="Subject" ng-model="newComm.data.subject"></li>
+					</ul>
+				</div>
+				<div class="col-md-6">
+					<div class="thumbnail" ng-click="tools.addImage(newComm.data, 'attachment')">
+						<h3 ng-hide="newComm.data.attachment">Attach Document</h3>
+						<iframe style="width: 100%;" ng-src="{{newComm.data.attachment.trusted_url}}" ng-show="newComm.data.attachment"></iframe>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel-footer clearfix">
+			<a class="btn btn-success pull-right" ng-click="tools.fax.send(newComm.data)">Send</a>
+		</div>
+	</div>
+</script>
+<script type="text/ng-template" id="snail.new">
+	<div class="panel panel-default" style="margin-top:17px;">
+		<div class="panel-heading">
+			<h4 class="panel-title">New Snail</h4>
+		</div>
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-md-6">
+					<ul class="list-group">
+						<li class="list-group-item"><textarea class="form-control" placeholder="From" ng-model="newComm.data.from"></textarea></li>
+						<li class="list-group-item"><textarea class="form-control" placeholder="To" ng-model="newComm.data.to"></textarea></li>
+					</ul>
+				</div>
+				<div class="col-md-3">
+					<div class="thumbnail" ng-click="tools.addImage(newComm.data, 'front')">
+						<h3 ng-hide="newComm.data.front">Front</h3>
+						<img ng-src="{{tools.snail.postcard.prep(newComm.data.front.secure_url)}}">
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="thumbnail" ng-click="tools.addImage(newComm.data, 'back')">
+						<h3 ng-hide="newComm.data.back">Back</h3>
+						<img ng-src="{{tools.snail.postcard.prep(newComm.data.back.secure_url)}}">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel-footer clearfix">
+			<a class="btn btn-success pull-right" ng-click="tools.snail.send(newComm.data)">Send</a>
+		</div>
+	</div>
+</script>
+<script type="text/ng-template" id="a.new">
+	<div class="timeline-panel panel panel-default">
+		<div class="panel-heading">
+			<h4 class="panel-title">New Snail</h4>
+		</div>
+		<ul class="list-group" ng-hide="snail">
+			<li class="list-group-item"><input type="tel" class="form-control" placeholder="To"></li>
+			<li class="list-group-item"><textarea class="form-control" placeholder="Address"></textarea></li>
+			<li class="list-group-item" ng-click="tools.addImage(newComm.data, 'front')">Front Of Card</li>
+			<li class="list-group-item" ng-click="tools.addImage(newComm.data, 'back')">Back Of Card</li>
+		</ul>
+		<div class="panel-body" ng-show="snail">
+			<div class="thumbnail">
+				<img ng-src="{{snail.thumbnails[0].medium}}">
+				<img ng-src="{{snail.thumbnails[1].medium}}">
+			</div>
+		</div>
+		<div class="panel-footer clearfix">
+			<a class="btn btn-success pull-right" ng-click="tools.snail.postcard(newComm.data)">Send</a>
+		</div>
+	</div>
+</script>

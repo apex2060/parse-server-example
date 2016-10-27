@@ -1,0 +1,61 @@
+<div class="list-group" ng-hide="form">
+	<div class="list-group-item active">Forms</div>
+	<a class="list-group-item" ng-repeat="form in vault.forms" ng-click="tools.focusForm(form)">{{form.title}}</a>
+</div>
+<div ng-show="form" ng-controller="AdminFormsCtrl">
+	<div class="well">
+		<h1 title="For: {{form.name}} &gt; {{data.objectId}}"><span ng-model="form.title">{{form.title}}</span></h1>
+		<p>{{form.p}}</p>
+	</div>
+	<div class="well">
+		<form class="clearfix fadeIn">
+			<div ng-repeat="field in form.fields">
+				<div class="form-group" ng-if="!field.array" ng-include="field.type+'.fill'"></div>
+				<div class="panel panel-default" ng-if="field.array">
+	  				<div class="panel-heading">List of {{field.title}}</div>
+	  				<div class="panel-body">
+						<div class="panel-group fadeIn" id="accordion_{{field.name}}" role="tablist" aria-multiselectable="true">
+							<div class="panel panel-default" ng-repeat="field in field.value">
+								<div class="panel-heading" role="tab" id="headingOne">
+									<h4 class="panel-title">
+										<a role="button" data-toggle="collapse" data-parent="#accordion_{{field.name}}" href="#{{field.name}}{{$index}}" aria-expanded="false" aria-controls="{{field.name}}{{$index}}">
+											{{field.title}} {{$index+1}}
+										</a>
+										<a class="pull-right" ng-show="field.removeable" ng-click="tools.item.remove($parent.$parent.field.value, field)"><i class="fa fa-trash"></i></a>
+									</h4>
+								</div>
+								<div id="{{field.name}}{{$index}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+									<div class="panel-body">
+										<div class="form-group" ng-include="field.type+'.fill'"></div>
+									</div>
+								</div>
+							</div>
+							<a class="btn btn-block btn-default" ng-click="tools.item.addArr(field)">Add: {{field.title}}</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-success pull-right" ng-click="tools.form.save()">Save</button>
+		</form>
+	</div>
+	
+	<div class="modal fade" id="endOptions" tabindex="-1" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Data Saved</h4>
+				</div>
+				<div class="modal-body">
+					<p>{{form.onSubmit.message || 'Thank You!'}}</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-block btn-default" ng-click="tools.form.end.continue()">Continue Making Changes.</button>
+					<button type="button" class="btn btn-block btn-info" ng-click="tools.form.end.keepData()">Keep Data, but submit another.</button>
+					<button type="button" class="btn btn-block btn-warning" ng-click="tools.form.end.clearAll()">Clear Data, and submit another.</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div ng-include="'fields.html'"></div>
+</div>

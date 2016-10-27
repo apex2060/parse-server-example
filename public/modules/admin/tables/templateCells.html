@@ -1,0 +1,45 @@
+<!--Default Options-->
+<script type="text/ng-template" id="default.templateCell">
+    <span editable-text="row[column.name]">{{row[column.name]}}</span>
+</script>
+<!--NoEdit Options-->
+<script type="text/ng-template" id="noedit.templateCell">
+    <span>{{row[column.name]}}</span>
+</script>
+
+
+
+<!--Date Options-->
+<script type="text/ng-template" id="rDate.templateCell">
+    <span editable-bsdate="row[column.name]">{{tools.random.compile('rDate', column, row)}}</span>
+</script>
+<!--Date Options-->
+<script type="text/ng-template" id="cDate.templateCell">
+    <span editable-bsdate="row[column.name]">{{tools.random.compile('cDate', column, row)}}</span>
+</script>
+<!--Date Options-->
+<script type="text/ng-template" id="aDate.templateCell">
+    <span editable-bsdate="row[column.name]">{{tools.random.compile('aDate', column, row)}}</span>
+</script>
+
+
+
+<!--Text Options-->
+<script type="text/ng-template" id="text.templateCell">
+    <span editable-text="row[column.name]">{{row[column.name]}}</span>
+</script>
+
+<!--Pointer Options-->
+<script type="text/ng-template" id="pointer.templateCell">
+    <a ng-href="#/admin/tables/{{row[column.name].className}}?search={{row[column.name].objectId}}">{{row[column.name].objectId}}</a>
+</script>
+
+<!--Link Options-->
+<script type="text/ng-template" id="link.templateCell">
+	<a target="_new" ng-href="{{tools.random.compile('link', column, row)}}">{{tools.random.interpolate(column.template.display, row)}}</a>
+</script>
+
+<!--Object Options-->
+<script type="text/ng-template" id="object.templateCell">
+    <span ng-click="tools.cell.focus(row[column.name])">Object</span>
+</script>

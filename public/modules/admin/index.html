@@ -1,0 +1,36 @@
+<div class="container" ng-controller="AdminCtrl">
+	<div class="well">
+		<h1>Admin Portal</h1>
+		<div class="row" ng-show="user.is('Admin')">
+			<div class="col-md-4">
+				<div class="panel panel-primary">
+					<div class="panel-heading">Tools</div>
+					<div class="list-group">
+						<!--<a class="list-group-item" href="#/admin/outpost">Locations</a>-->
+						<a class="list-group-item" href="#/admin/directory">Directory</a>
+						<a class="list-group-item" href="#/admin/roles">Roles</a>
+						<a class="list-group-item" href="#/forms">Forms</a>
+						<!--<a class="list-group-item" href="#/admin/data">Data</a>-->
+						<a class="list-group-item" href="#/admin/tables">Tables</a>
+						<a class="list-group-item" href="#/communication">Communication</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4" ng-show="user.is('It')">
+				<div class="panel panel-primary">
+					<div class="panel-heading">Website API's</div>
+					<div class="list-group">
+						<a class="list-group-item" target="_new" href="#">Plivo</a>
+						<a class="list-group-item" target="_new" href="#">Phaxio</a>
+						<a class="list-group-item" target="_new" href="#">Mailgun</a>
+						<a class="list-group-item" target="_new" href="#">Plaid</a>
+						<a class="list-group-item" target="_new" href="#">Stripe</a>
+						<a class="list-group-item" target="_new" href="#">Lob</a>
+						<a class="list-group-item" target="_new" href="#">PdfFiller</a>
+						<a class="list-group-item" target="_new" href="#">Nest</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

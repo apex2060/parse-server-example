@@ -1,0 +1,190 @@
+<div class="container" ng-controller="DocCtrl">
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" ng-click="tools.view('browse')">Document Center</a>
+			</div>
+
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<form class="navbar-form navbar-left" role="search">
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Search" ng-model="listSearch" ng-model-options="{ debounce: 1000 }">
+					</div>
+				</form>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-magic" aria-hidden="true"></i> View <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a ng-click="tools.view('browse')"><i class="fa fa-folder-open" aria-hidden="true"></i> Documents</a></li>
+							<li ng-show="user.is('Admin')"><a ng-click="tools.view('fillMagic')"><i class="fa fa-magic" aria-hidden="true"></i> Magic Fill Requests</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	
+	<div ng-include="tools.view()"></div>
+	
+	<div id="signatureModal" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Signatures</h4>
+				</div>
+				<div class="modal-body">
+					<div class="list-group">
+						<a class="list-group-item" ng-repeat="s in signatures" target="_blank" href="/pdf?document_id={{s.document_id}}">
+							<span ng-repeat="r in s.recipients">{{r.name}}, </span>
+						</a>
+					</div>
+					<div ng-show="sig.recipients.length">
+						<div class="form-group">
+							<label for="sigMsgSubject">Subject</label>
+							<input type="text" class="form-control" id="sigMsgSubject" ng-model="sig.subject">
+						</div>
+						<div class="form-group">
+							<label for="sigMsgText">Message</label>
+							<textarea class="form-control" id="sigMsgText" ng-model="sig.message"></textarea>
+						</div>
+						<div class="form-group">
+							<label for="sigReqMethod">Method</label>
+							<select class="form-control" id="sigReqMethod" ng-model="sig.method">
+								<option value="sendtoeach">Send To Each</option>
+								<option value="sendtogroup">Send To Group</option>
+							</select>
+						</div>
+						<div ng-show="sig.method=='sendtogroup'">
+							<div class="form-group">
+								<label for="sigMsgSubject">Envelope</label>
+								<input type="text" class="form-control" id="sigMsgSubject" ng-model="sig.envelope_name">
+							</div>
+							<div class="checkbox">
+								<label><input type="checkbox" ng-model="sig.sign_in_order"> Sign In Order</label>
+							</div>
+						</div>
+						<div class="well" ng-repeat="r in sig.recipients">
+							<div class="form-group">
+								<label for="sigName">Name</label>
+								<input type="text" class="form-control" id="sigName" ng-model="r.name">
+							</div>
+							<div class="form-group">
+								<label for="sigEmail">Email address</label>
+								<input type="email" class="form-control" id="sigEmail" ng-model="r.email">
+							</div>
+							<div class="checkbox">
+								<label><input type="checkbox" ng-model="r.canEdit"> Signer Can Edit Document</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success pull-left" ng-click="tools.sign.new()">New Request</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" ng-click="tools.sign.send(doc)">Send</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div id="faxModal" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Link Fax Number</h4>
+				</div>
+				<div class="modal-body">
+					<div class="list-group">
+						<div class="list-group-item" ng-class="{'list-group-item-success':f.folder.objectId==focus.objectId}" ng-repeat="f in faxNumbers">
+							<span>{{f.number}} - {{f.title}}</span>
+							<i class="fa fa-link pull-right" ng-click="tools.admin.fax.toggleLink(f, focus)"></i>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="faxSendModal" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<form ng-submit="tools.fax.send(tempFax)">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Fax A Document</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="localNumber">From</label>
+							<select class="form-control" id="localNumber" ng-options="n.number as n.number+': '+n.title for n in faxNumbers" ng-model="tempFax.localNumber"></select>
+						</div>
+						<div class="form-group">
+							<label for="remoteNumber">To</label>
+							<input type="text" class="form-control" id="remoteNumber" placeholder="555-555-5555" ng-model="tempFax.remoteNumber">
+						</div>
+						<div class="form-group">
+							<label for="subject">Subject</label>
+							<input type="text" class="form-control" id="subject" placeholder="Will be printed at top of page." ng-model="tempFax.subject">
+						</div>
+						<div class="form-group">
+							<img class="img-responsive thumbnail" ng-src="{{tempFax.attachment.img_url}}">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success">Send</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div id="dataModal" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Link Data</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Table</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" placeholder="Table" ng-model="temp.data.table">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Query</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" placeholder="Query" ng-model="temp.data.query">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Display</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" placeholder="Display" ng-model="temp.data.display">
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-success" data-dismiss="modal" ng-click="tools.admin.data.save(temp.data)">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

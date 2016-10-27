@@ -1,0 +1,38 @@
+<div ng-controller="TestCtrl" class="container">
+    <h1>eCMS to gCal</h1>
+    <h2><a class="btn" ng-click="tools.auth()">Reg Authorize</a></h2>
+<a class="btn btn-info" href="
+https://accounts.google.com/o/oauth2/auth?
+scope=email%20profile%20https://www.googleapis.com/auth/calendar%20https://www.googleapis.com/auth/drive&
+redirect_uri=https%3A%2F%2Fthe.easybusiness.center/oauth&
+response_type=code&
+access_type=offline&
+client_id=821954483-q3ooncrbh8cmo8ukcupov77hfn41i6g9.apps.googleusercontent.com&
+approval_prompt=force&
+state={{user.objectId}}
+">REAL (Offline) Auth</a>
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <textarea class="form-control" ng-model="messageTxt"></textarea>
+            <a class="btn btn-block btn-success" ng-click="tools.parse()">Parse</a>
+            {{messageTxt}}
+            <hr>
+            {{req}}
+        </div>
+        <div class="col-md-6">
+            <div class="list-group">
+                <div class="list-group-item" ng-repeat="r in regex">
+                    <input type="text" placeholder="Name" ng-model="r.name">
+                    <input type="text" placeholder="Regex" ng-model="r.exp">
+                </div>
+                <div class="list-group-item">
+                    <input type="text" placeholder="Name" ng-model="temp.name">
+                    <input type="text" placeholder="Regex" ng-model="temp.exp">
+                    <a class="btn btn-info" ng-click="tools.add(temp.name, temp.exp)">+</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

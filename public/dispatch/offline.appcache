@@ -1,0 +1,24 @@
+CACHE MANIFEST
+# V1
+
+CACHE:
+/favicon.ico
+data.html
+fields.html
+forms.html
+index.html
+setup.html
+sync.html
+
+jSignature/flashcanvas.js
+jSignature/jSignature.min.js
+vendor.js
+app.js
+config.js
+
+vendor.css
+app.css
+
+# Resources that require the user to be online.
+NETWORK:
+*

@@ -1,0 +1,45 @@
+
+
+<script type="text/ng-template" id="table.vis">
+	<div class="well">
+		<table class="table table-striped">
+			<tr>
+				<th ng-repeat="c in chart.columns">{{c}}</th>
+			</tr>
+			<tr ng-repeat="r in chart.rows">
+				<td ng-repeat="c in chart.columns">{{r[c]}}</td>
+			</tr>
+		</table>
+	</div>
+</script>
+
+
+<script type="text/ng-template" id="line.vis">
+	<div class="well">
+		<select class="pull-right" ng-options="c for c in polar.columns" ng-model="polar.metric" ng-blur="vjs.format()" title="Metric"></select>
+		<select class="pull-right" ng-options="c for c in polar.columns" ng-model="polar.label" ng-blur="vjs.format()" title="Label"></select>
+		<canvas id="line" class="chart chart-line" chart-data="chart.data" chart-labels="chart.labels" chart-legend="true" chart-series="chart.series" chart-click="onClick"></canvas> 
+	</div>
+</script>
+
+<script type="text/ng-template" id="bar.vis">
+	<div class="well">
+		<select class="pull-right" ng-options="c for c in polar.columns" ng-model="polar.metric" ng-blur="vjs.format()" title="Metric"></select>
+		<select class="pull-right" ng-options="c for c in polar.columns" ng-model="polar.label" ng-blur="vjs.format()" title="Label"></select>
+		<canvas id="bar" class="chart chart-bar" chart-data="chart.data" chart-labels="chart.labels" chart-legend="true" chart-series="chart.series" chart-click="onClick"></canvas> 
+	</div>
+</script>
+
+<script type="text/ng-template" id="polar.vis">
+	<div class="well">
+		<select class="pull-right" ng-options="c for c in polar.columns" ng-model="polar.metric" ng-blur="vjs.format()" title="Metric"></select>
+		<select class="pull-right" ng-options="c for c in polar.columns" ng-model="polar.label" ng-blur="vjs.format()" title="Label"></select>
+		<canvas id="polar-area" class="chart chart-polar-area" chart-data="chart.data" chart-labels="chart.labels"></canvas> 
+	</div>
+</script>
+
+<script type="text/ng-template" id="map.vis">
+	<ng-map zoom-to-include-markers="auto" style="height:600px">
+		<marker position="{{vjs.geoPoint(t.point)}}" ng-repeat="t in chart.markers"></marker>
+	</ng-map>
+</script>

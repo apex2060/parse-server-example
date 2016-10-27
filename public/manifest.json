@@ -1,0 +1,28 @@
+{
+  "short_name": "STAR",
+  "name": "SouthTown Auto Repair",
+  "icons": [{
+  		"src": "static/img/icon/36.png",
+  		"sizes": "36x36"
+  	}, {
+  		"src": "static/img/icon/48.png",
+  		"sizes": "48x48"
+  	}, {
+  		"src": "static/img/icon/72.png",
+  		"sizes": "72x72"
+  	}, {
+  		"src": "static/img/icon/96.png",
+  		"sizes": "96x96"
+  	}, {
+  		"src": "static/img/icon/144.png",
+  		"sizes": "144x144"
+  	},  {
+      "src": "static/img/icon/192.png",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": "index.html#/dashboard",
+  "display": "standalone",
+  "orientation": "portrait",
+  "gcm_sender_id": "857868996348"
+}

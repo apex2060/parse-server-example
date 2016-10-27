@@ -1,0 +1,55 @@
+<div class="container" ng-controller="ComFaxCtrl">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="list-group">
+				<div class="list-group-item active">Fax Numbers</div>
+				<div class="list-group-item" ng-repeat="n in numbers" ng-click="tools.number.focus(n)">
+					<span>{{n.number}} - {{n.title}}</span>
+				</div>
+				<div class="list-group-item">
+					<button class="btn btn-block btn-primary" type="button" data-toggle="collapse" data-target="#faxCollapse" aria-expanded="false" aria-controls="faxCollapse">
+						New Number
+					</button>
+					<div class="collapse" id="faxCollapse">
+						<input type="search" class="form-control" ng-model="listSearch" placeholder="Search">
+						<div class="list-group" style="max-height:300px; overflow:auto;">
+							<a class="list-group-item" ng-repeat="item in areaCodes | filter:listSearch" ng-click="tools.provision.order(item.code)">{{item.title}}</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="panel panel-default" ng-show="number">
+				<div class="panel-heading">
+					<span>{{number.number}}</span>
+					<span class="pull-right">
+						<a class="btn btn-danger btn-xs" ng-click="tools.number.remove(number)" title="Delete"><i class="fa fa-trash"></i></a>
+						<a class="btn btn-info btn-xs" ng-click="tools.number.acl(number)" title="Share"><i class="fa fa-share-alt"></i></a>
+						<!--<a class="btn btn-info btn-xs" ng-click="tools.document.acl(n)" title="Set who can see incomming documents to this number."><i class="fa fa-sitemap"></i></a>-->
+					</span>
+				</div>
+				<div class="panel-body">
+					<input type="text" class="form-control" placeholder="Title" ng-model="number.title">
+					<table class='table table-striped'>
+						<tr>
+							<td>City</td>
+							<td>{{number.city}}</td>
+						</tr>
+						<tr>
+							<td>State</td>
+							<td>{{number.state}}</td>
+						</tr>
+						<tr title="Incoming faxes will be saved to this folder and receive the same access control that the folder has at the time when the fax is received">
+							<td>Folder</td>
+							<td><i class="fa fa-trash" ng-click="tools.number.removeFolder(number)" ng-show="number.folder"></i> {{number.folder.title}}</td>
+						</tr>
+					</table>
+					<hr>
+					<!--<p>Add routing information || triggers</p>-->
+					<a class="pull-right btn btn-success" ng-click="tools.number.save(number)" title="Save">Save</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,182 @@
+
+
+<script type="text/ng-template" id="table.vis">
+	<div style="overflow:auto;">
+		<table class="table table-striped">
+			<tr>
+				<th ng-repeat="c in formated.columns">{{c}}</th>
+			</tr>
+			<tr ng-repeat="r in formated.rows">
+				<td ng-repeat="c in formated.columns">{{r[c]}}</td>
+			</tr>
+		</table>
+	</div>
+</script>
+
+
+<script type="text/ng-template" id="line.vis">
+	<canvas id="line" class="chart chart-line" chart-data="formated.data" chart-labels="formated.labels" chart-legend="true" chart-series="formated.series" chart-click="vjs.onClick"></canvas> 
+</script>
+
+<script type="text/ng-template" id="bar.vis">
+	<canvas id="bar" class="chart chart-bar" chart-data="formated.data" chart-labels="formated.labels" chart-legend="true" chart-series="formated.series" chart-click="vjs.onClick"></canvas> 
+</script>
+
+<script type="text/ng-template" id="doughnut.vis">
+	<canvas id="doughnut-area" class="chart chart-doughnut" chart-data="formated.data" chart-labels="formated.labels" chart-click="vjs.onClick"></canvas> 
+</script>
+
+<script type="text/ng-template" id="radar.vis">
+	<canvas id="radar-area" class="chart chart-radar" chart-data="formated.data" chart-labels="formated.labels" chart-click="vjs.onClick"></canvas> 
+</script>
+
+<script type="text/ng-template" id="pie.vis">
+	<canvas id="pie-area" class="chart chart-pie" chart-data="formated.data" chart-labels="formated.labels" chart-click="vjs.onClick"></canvas> 
+</script>
+
+<script type="text/ng-template" id="polar.vis">
+	<canvas id="polar-area" class="chart chart-polar-area" chart-data="formated.data" chart-labels="formated.labels" chart-click="vjs.onClick"></canvas> 
+</script>
+
+<script type="text/ng-template" id="horizontal.vis">
+	<canvas id="horizontal-bar" class="chart chart-horizontal-bar" chart-data="formated.data" chart-labels="formated.labels" chart-click="vjs.onClick"></canvas> 
+</script>
+
+<script type="text/ng-template" id="bubble.vis">
+	<canvas id="bubble-area" class="chart chart-bubble" chart-data="formated.data" chart-labels="formated.labels" chart-click="vjs.onClick"></canvas> 
+</script>
+
+<script type="text/ng-template" id="map.vis">
+	<ng-map zoom-to-include-markers="auto" style="height:600px">
+		<marker position="{{vjs.geoPoint(t.point)}}" ng-repeat="t in formated.markers"></marker>
+	</ng-map>
+</script>
+
+
+
+
+
+
+
+<script type="text/ng-template" id="default.colOptions">
+	<div></div>
+</script>
+<script type="text/ng-template" id="date.colOptions">
+	<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+		<div class="panel panel-default">
+			<div class="panel-heading" role="tab" id="orderHeading">
+			<h4 class="panel-title">
+				<a role="button" data-toggle="collapse" data-parent="#accordion" href="#order" aria-expanded="true" aria-controls="order">
+					Order: {{focusCol.name}}
+				</a>
+				<a class="pull-right" ng-click="tools.col.clearOrder(focusCol)"><i class="fa fa-trash" aria-hidden="true"></i></a>
+			</h4>
+			</div>
+			<div id="order" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="orderHeading">
+				<div class="panel-body">
+					<select class="form-control" ng-model="focusCol.order" ng-change="tools.applyRules()">
+						<option value="asc">Ascending</option>
+						<option value="desc">Descending</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading" role="tab" id="headingOne">
+			<h4 class="panel-title">
+				<a role="button" data-toggle="collapse" data-parent="#accordion" href="#filter" aria-expanded="true" aria-controls="filter">
+					Filter: {{focusCol.name}}
+				</a>
+				<a class="pull-right" ng-click="tools.col.clearFilter(focusCol)"><i class="fa fa-trash" aria-hidden="true"></i></a>
+			</h4>
+			</div>
+			<div id="filter" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+				<div class="panel-body">
+					<input type="date" class="form-control" ng-model="focusCol.filter.start" ng-change="tools.applyRules()">
+					<input type="date" class="form-control" ng-model="focusCol.filter.end" ng-change="tools.applyRules()">
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+<script type="text/ng-template" id="number.colOptions">
+	<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+		<div class="panel panel-default">
+			<div class="panel-heading" role="tab" id="orderHeading">
+			<h4 class="panel-title">
+				<a role="button" data-toggle="collapse" data-parent="#accordion" href="#order" aria-expanded="true" aria-controls="order">
+					Order: {{focusCol.name}}
+				</a>
+				<a class="pull-right" ng-click="tools.col.clearOrder(focusCol)"><i class="fa fa-trash" aria-hidden="true"></i></a>
+			</h4>
+			</div>
+			<div id="order" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="orderHeading">
+				<div class="panel-body">
+					<select class="form-control" ng-model="focusCol.order" ng-change="tools.applyRules()">
+						<option value="asc">Ascending</option>
+						<option value="desc">Descending</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading" role="tab" id="headingOne">
+			<h4 class="panel-title">
+				<a role="button" data-toggle="collapse" data-parent="#accordion" href="#filter" aria-expanded="true" aria-controls="filter">
+					Filter: {{focusCol.name}}
+				</a>
+				<a class="pull-right" ng-click="tools.col.clearFilter(focusCol)"><i class="fa fa-trash" aria-hidden="true"></i></a>
+			</h4>
+			</div>
+			<div id="filter" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+				<div class="panel-body">
+					<input type="number" class="form-control" ng-model="focusCol.filter.min" placeholder="Min" ng-change="tools.applyRules()">
+					<input type="number" class="form-control" ng-model="focusCol.filter.max" placeholder="Max" ng-change="tools.applyRules()">
+					<select class="form-control" ng-model="focusCol.filter.options" ng-change="tools.applyRules()" multiple>
+						<option value="{{choice}}" ng-repeat="choice in focusCol.options">{{choice}}</option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+<script type="text/ng-template" id="string.colOptions">
+	<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+		<div class="panel panel-default">
+			<div class="panel-heading" role="tab" id="orderHeading">
+			<h4 class="panel-title">
+				<a role="button" data-toggle="collapse" data-parent="#accordion" href="#order" aria-expanded="true" aria-controls="order">
+					Order: {{focusCol.name}}
+				</a>
+				<a class="pull-right" ng-click="tools.col.clearOrder(focusCol)"><i class="fa fa-trash" aria-hidden="true"></i></a>
+			</h4>
+			</div>
+			<div id="order" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="orderHeading">
+				<div class="panel-body">
+					<select class="form-control" ng-model="focusCol.order" ng-change="tools.applyRules()">
+						<option value="asc">Ascending</option>
+						<option value="desc">Descending</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading" role="tab" id="headingOne">
+			<h4 class="panel-title">
+				<a role="button" data-toggle="collapse" data-parent="#accordion" href="#filter" aria-expanded="true" aria-controls="filter">
+					Filter: {{focusCol.name}}
+				</a>
+				<a class="pull-right" ng-click="tools.col.clearFilter(focusCol)"><i class="fa fa-trash" aria-hidden="true"></i></a>
+			</h4>
+			</div>
+			<div id="filter" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+				<div class="panel-body">
+					<input type="text" class="form-control" ng-model="focusCol.filter.string" ng-change="tools.applyRules()">
+					<select class="form-control" ng-model="focusCol.filter.options" ng-change="tools.applyRules()" multiple>
+						<option value="{{choice}}" ng-repeat="choice in focusCol.options">{{choice}}</option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>

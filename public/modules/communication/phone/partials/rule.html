@@ -1,0 +1,34 @@
+<div class="panel-group" id="ruleList" role="tablist" aria-multiselectable="true">
+	<div class="panel panel-default" ng-repeat="rule in number.rules">
+		<div class="panel-heading" role="tab" id="headingOne">
+			<h4 class="panel-title">
+				<a role="button" data-toggle="collapse" data-parent="#ruleList" href="#rule{{$index}}" aria-expanded="false" aria-controls="rule{{$index}}" contenteditable ng-model="rule.title">{{rule.title}}</a>
+				<i class="fa fa-trash pull-right" ng-click="tools.item.remove(number.rules, rule)"></i>
+			</h4>
+		</div>
+		<div id="rule{{$index}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+			<div class="panel-body" ng-include="rule.type+'.rule'"></div>
+		</div>
+	</div>
+	
+	<div class="panel panel-default">
+		<div class="panel-heading" role="tab" id="headingOne">
+			<h4 class="panel-title">Default Rule</h4>
+		</div>
+		<div id="ruleDefault">
+			<div class="panel-body">
+				<select class="form-control" ng-options="index as flow.title for (index, flow) in number.flows" ng-model="number.defaultRule"></select>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="dropdown">
+	<button id="dLabel" class="btn btn-block btn-info" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Add
+		<span class="caret"></span>
+	</button>
+	<ul class="dropdown-menu" aria-labelledby="dLabel">
+		<li><a ng-click="tools.rule.add({type:'time', title:'Time Based', times: []})">Time Based</a></li>
+		<li><a ng-click="tools.rule.add({type:'number', title:'Number Based'})">Number Based</a></li>
+		<li><a ng-click="tools.rule.add({type:'table', title:'Table Lookup'})">Table Lookup</a></li>
+	</ul>
+</div>

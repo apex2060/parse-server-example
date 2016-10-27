@@ -1,0 +1,49 @@
+<div class="container" ng-controller="DispatchCtrl">
+	<a target="_blank" href="http://www.insta-mapper.com/">Manage Fleet</a>
+	<ng-map zoom-to-include-markers="auto" style="height:600px">
+		<marker icon="{{tools.truck.marker(t)}}" position="{{tools.truck.geoPoint(t.geo)}}" ng-repeat="t in fleet" on-click="tools.truck.info(t)"></marker>
+		<shape name = "polyline"
+			path = "{{route}}"
+			geodesic = "true"
+			stroke-color = "#FF0000"
+			stroke-opacity = "0.4"
+			stroke-weight = "5" >
+		</shape>
+	</ng-map>
+	<div id="truckInfo" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<div class="progress" id="battery" title="Battery: {{truck.battery}}%">
+						<div class="progress-bar progress-bar-info" style="width: {{truck.battery}}%;"></div>
+					</div>
+					<div class="media">
+						<div class="media-left">
+							<a ng-click="tools.truck.setMarker(truck)">
+								<img class="media-object" src="{{truck.marker.thumbnail_url}}" alt="IMG">
+							</a>
+						</div>
+						<div class="media-body">
+							<h4 class="modal-title">{{truck.title}}</h4>
+							<p>{{truck.lastSeen.fromNow()}}</p>
+						</div>
+					</div>
+				</div>
+				<div class="modal-body">
+					<h4>Driver: <span contenteditable="true" ng-model="truck.driver" placeholder="John Doe"></span></h4>
+					<h4>Speed: <i title="MPH">{{truck.speed}}</i> <b title="Direction">{{tools.truck.direction(truck.heading)}}</b></h4>
+					<a ng-click="tools.truck.route(truck)">View Route</a>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary pull-left">Send Message</button>
+					<button type="button" class="btn btn-success" ng-click="tools.truck.save(truck)">Save</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!--/.modal -->
+</div>

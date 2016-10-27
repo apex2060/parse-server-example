@@ -1,0 +1,32 @@
+CACHE MANIFEST
+# 6/29/2016
+
+# Explicitly cached 'master entries'.
+CACHE:
+/vendor/jquery.min.js
+/vendor/bootstrap.min.js
+
+//ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-animate.min.js
+//ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js
+//ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-touch.min.js
+
+//cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js
+//widget.cloudinary.com/global/all.js
+//www.parsecdn.com/js/parse-1.3.1.min.js
+
+//maps.google.com/maps/api/js?sensor=true&libraries=geometry,drawing
+//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.js
+//cdn.plaid.com/link/stable/link-initialize.js
+
+/vendor/jquery-ui.min.js
+/vendor/angular-dragDrop.js
+
+
+/vendor/angular-sticky.min.js
+/vendor/toastr/toastr.min.js
+//www.google.com/jsapi
+/vendor/pouchdb.min.js
+
+# Resources that require the user to be online.
+NETWORK:
+*

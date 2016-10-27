@@ -1,0 +1,48 @@
+<div class="container" ng-controller="WorkDirectoryCtrl" ng-init="tools.init()">
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#directoryNavbar" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand">Directory Sync</a>
+			</div>
+	
+			<div class="collapse navbar-collapse" id="directoryNavbar">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a ng-click="tools.view('groups')">Manage Groups</a></li>
+					<li><a ng-click="tools.sync.fromGoogle()">All From Google</a></li>
+					<li><a ng-click="tools.sync.fromLocal()">All From Local</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div class="well">
+		<p>This page allows you to manage and sync your directory with Google Apps.  The directory can be seen by everyone within the organization.  It is used in the phone system, and can be utilized for many other purposes.  Employees can update their own infomration within the directory.</p>
+		<a class="btn btn-block btn-lg btn-info" ng-click="tools.sync.request()" ng-show="requestAccess">Load Google Data</a>
+	</div>
+	<div class="well">
+		<table class="table table-striped">
+			<tr>
+				<th>Name</th>
+				<th>Email</th>
+				<th colspan="2">Actions</th>
+			</tr>
+			<tr ng-repeat="user in data.notInGoogle">
+				<td>{{user.name}}</td>
+				<td>{{user.email}}</td>
+				<td><a class="btn btn-sm btn-success" ng-click="tools.google.directory.add(user)">Create Google Account</a></td>
+				<td><a class="btn btn-sm btn-danger" ng-click="tools.local.directory.remove(user)">Remove From Directory</a></td>
+			</tr>
+			<tr ng-repeat="user in data.notInLocal">
+				<td>{{user.name.fullName}}</td>
+				<td>{{user.primaryEmail}}</td>
+				<td><a class="btn btn-sm btn-success" ng-click="tools.local.directory.add(user)">Add To Directory</a></td>
+				<td><a class="btn btn-sm btn-danger" ng-click="tools.google.directory.remove(user)">Remove Google Account</a></td>
+			</tr>
+		</table>
+	</div>
+</div>

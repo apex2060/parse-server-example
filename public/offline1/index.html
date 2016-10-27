@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<!--<html lang="en" manifest="offline.appcache">-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	<meta name="description" content="Offline Forms">
+	<meta name="apple-mobile-web-app-status-bar-style" content="blue">
+	<title>Form</title>	
+	<link rel="icon" href="../favicon.ico">
+	<link rel="manifest" href="manifest.json">
+	<link href="vendor.css" rel="stylesheet">
+	<link href="app.css" rel="stylesheet">
+	
+	<script src="vendor.js"></script>
+	<script src="app.js"></script>
+</head>
+
+<body ng-app="offlineForms">
+	<div class="container-fluid" ng-controller="AdminFormsCtrl">
+		<div ng-include="tools.view()"></div>
+		<div ng-include="'templates/fillFields.html'"></div>
+	</div>
+	<div ng-show="page" ng-bind-html="tools.random.interpolate(page, data)" ng-dblclick="tools.random.hidePage()"></div>
+	<script src="//apis.google.com/js/client:platform.js?onload=auth"></script>
+</body>
+</html>

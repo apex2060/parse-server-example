@@ -1,0 +1,70 @@
+<div class="container">
+	<div class="well">
+		<h1>Employee Portal</h1>
+		<div class="row">
+			<div class="col-md-4">
+				<div class="panel panel-primary">
+					<div class="panel-heading">Quick Links</div>
+					<div class="list-group">
+						<a class="list-group-item" target="_new" href="http://mail.dignpave.com">Email</a>
+						<a class="list-group-item" target="_new" href="http://drive.dignpave.com">Drive</a>
+						<a class="list-group-item" target="_new" href="http://calendar.dignpave.com">Calendar</a>
+						<!--<a class="list-group-item" target="_new" href="http://keep.google.com">Notes</a>-->
+						<a class="list-group-item" target="_new" href="https://jhamilton.ecmserp.com/ess">HRSS</a>
+						<a class="list-group-item" target="_new" href="https://www.google.com/contacts/u/0/?hl=en&tab=oC#contacts/group/27/Directory">Contacts</a>
+						<!--<a class="list-group-item" href="#">Employee Directory</a>-->
+						<!--<a class="list-group-item" href="#">Job Locations</a>-->
+						<!--<a class="list-group-item" href="#/employee/profile">Manage Profile</a>-->
+						<!--<a class="list-group-item" href="#/employee/settings">Manage Settings</a>-->
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="panel panel-primary">
+					<div class="panel-heading">Support Links</div>
+					<div class="list-group">
+						<a class="list-group-item" target="_new" href="https://youtu.be/zkO8ssdMy8E">Employee Orientation</a>
+						<a class="list-group-item" target="_new" href="https://docs.google.com/a/dignpave.com/forms/d/1Cu2UsuDPUqLt0POTmHIkYvHjnw6Sv5dHHspyTzXY0tc/viewform">Request IT Support</a>
+						<a class="list-group-item" target="_new" href="https://docs.google.com/a/dignpave.com/forms/d/1HnThu9vCm5O3r8igcW0CLJu5J2QGZZl8ZDKHIhFIBvU/viewform">Request IT Equipment</a>
+					</div>
+				</div>
+			</div>
+
+			<!--<div class="col-md-4">-->
+			<!--	<div class="panel panel-primary">-->
+			<!--		<div class="panel-heading">Tools In Development</div>-->
+			<!--		<div class="list-group">-->
+			<!--			<a class="list-group-item" href="#/scalehouse">Scale House</a>-->
+			<!--			<a class="list-group-item" href="#/equipment">Equipment</a>-->
+			<!--			<a class="list-group-item" href="#/safety">Safety</a>-->
+			<!--			<a class="list-group-item" href="#/guest/apply">online Application</a>-->
+			<!--		</div>-->
+			<!--	</div>-->
+			<!--</div>-->
+			<div class="col-md-4" ng-show="user.is('Employee')">
+				<div class="panel panel-primary">
+					<div class="panel-heading">Tools</div>
+					<div class="list-group">
+						<a class="list-group-item" href="#/communication/fax">Fax</a>
+						<a class="list-group-item" href="#/scalehouse" ng-show="user.is('ScaleMaster')">Scale House</a>
+						<a class="list-group-item" href="/fuel" ng-show="user.is('FuelMaster')">Fuel Tickets</a>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-md-4">
+				<div class="panel panel-primary">
+					<div class="panel-heading">Software Solutions</div>
+					<div class="list-group">
+						<a class="list-group-item" target="_new" href="https://tools.google.com/dlpage/cloudprintdriver">Google Cloud Print</a>
+						<a class="list-group-item" target="_new" href="https://tools.google.com/dlpage/drive/index.html?hl=en#eula">Google Drive</a>
+						<a class="list-group-item" target="_new" href="https://tools.google.com/dlpage/gappssync">Google Outlook Sync</a>
+					</div>
+					<div class="list-group" ng-show="user.is('Employee')">
+						<a class="list-group-item" target="_new" href="https://www.tracker-software.com/product/pdf-xchange-pro/download?fileid=527">Adobe PDF Editor</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

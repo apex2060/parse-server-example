@@ -1,0 +1,30 @@
+<div class="container" ng-controller="NestCtrl">
+	<div class="jumbotron">
+		<h1>Nest Connect</h1>
+		<p>Connect your nest cameras to the easy business services.  <br>Then integrate and monitor everything in one place!</p>
+	</div>
+	
+	<div class="well">
+		<div class="row">
+			<div class="col-md-4">
+				<div class="list-group">
+					<a class="list-group-item" ng-repeat="account in accounts" ng-click="tools.devices(account.objectId)">{{account.user.username}}</a>
+					<div class="list-group-item">
+						<form ng-submit="tools.register(nestCode)">
+							<a class="btn btn-info btn-block" href="https://home.nest.com/login/oauth2?client_id={{config.nest}}&state=1221EBC">Obtain a Nest Code</a>
+							<input type="text" class="form-control" id="nestCode" placeholder="Paste code here." ng-model="nestCode">
+							<button type="submit" class="btn btn-block btn-primary">Register Nest</button>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4" ng-repeat="c in cameraIds">
+				<div class="thumbnail">
+					<h1>{{cameras[c].name}}</h1>
+					<img ng-src="{{cameras[c].last_event.image_url}}"></img>
+					<!--<img ng-src="{{cameras[c].last_event.animated_image_url}}"></img>-->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

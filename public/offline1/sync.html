@@ -1,0 +1,5 @@
+<div class="jumbotron">
+    <h1>Data Sync</h1>
+    <p>Syncing</p>
+    <div class="alert" ng-class="'alert-'+tools.admin.entries.sClass(item.status)" ng-repeat="item in syncLog">{{item.dataId}} in {{tools.random.title(item.formId)}} is {{item.status}}</div>
+</div>

@@ -1,0 +1,29 @@
+<div class="panel panel-default">
+	<div class="panel-heading">Admin</div>
+	<a class="list-group-item" ng-click="tools.view('setup')">Setup</a>
+	<a class="list-group-item" ng-click="tools.admin.sync()">Sync</a>
+	<a class="list-group-item" ng-click="tools.resetPin()">Change Pin</a>
+	<a class="list-group-item" ng-click="tools.reset()">Clear Local</a>
+	<a class="list-group-item" ng-click="tools.admin.dataDump()">Data Dump</a>
+	
+	<div class="panel-footer" ng-show="dataDump">
+		<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+			<div class="panel panel-default" ng-repeat="key in dataDump.keys">
+				<div class="panel-heading" role="tab" id="dataDump{{$index}}">
+					<h4 class="panel-title">
+						<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{$index}}" aria-expanded="false" aria-controls="collapse{{$index}}">
+							{{key}}
+						</a>
+					</h4>
+				</div>
+				<div id="collapse{{$index}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="dataDump{{$index}}">
+					{{dataDump.data[key]}}
+				</div>
+			</div>
+		</div>
+		<div class="alert alert-info">{{version}}</div>
+		<div class="alert alert-danger" ng-repeat="error in errors">{{error}}</div>
+	</div>
+	<div class="well">{{version}}</div>
+	<div class="well">{{vault}}</div>
+</div>

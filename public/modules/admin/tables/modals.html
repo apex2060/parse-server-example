@@ -1,0 +1,217 @@
+<div id="colModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Column: <span contenteditable ng-model="focus.title">{{focus.title || focus.name}}</span></h4>
+				<h4 class="modal-title">Data Source: <span contenteditable ng-model="focus.name">{{focus.name}}</span></h4>
+			</div>
+			<div class="modal-body">
+				<!--<h1>Settings</h1>-->
+				<select class="form-control" ng-options="template as template.title for template in colTemplates" ng-model="focus.template"></select>
+				<div ng-include="tools.column.template(focus)"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" ng-click="tools.column.remove(focus)">Remove Column</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+
+<div id="ObjModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Diving Deeper</h4>
+			</div>
+			<div class="modal-body modal-lg">
+				<table class="table table-striped">
+					<tr>
+						<th ng-repeat="ttl in focus.columns">{{ttl}}</th>
+					</tr>
+					<tr ng-repeat="row in focus.list">
+						<td ng-repeat="ttl in focus.columns">{{row[ttl]}}</td>
+					</tr>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+
+<div id="PtrModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Pointer to {{focus.item.objectId}} in {{focus.table}}</h4>
+			</div>
+			<div class="modal-body modal-lg">
+				<table class="table table-striped">
+					<tr>
+						<th ng-repeat="ttl in focus.columns">{{ttl}}</th>
+					</tr>
+					<tr ng-repeat="row in focus.list">
+						<td ng-repeat="ttl in focus.columns">{{row[ttl]}}</td>
+					</tr>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<a class="btn btn-info pull-left" target="_new" ng-repeat="form in focus.forms" href="#/forms/{{form.objectId}}?action=fill&for={{focus.item.objectId}}">{{form.title}}</a>
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<div id="GeoModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Geo Point</h4>
+			</div>
+			<div class="modal-body">
+				<div>
+					<ng-map id="GeoMap" center="{{focus.latitude}},{{focus.longitude}}" style="height: 400px; display: block;" lazy-init="true">
+						<marker position="{{focus.latitude}},{{focus.longitude}}" draggable="true" on-dragend="focusCallback()"></marker>
+					</ng-map>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+
+
+<div id="migrationModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Migration Modal</h4>
+			</div>
+			<div class="modal-body">
+				<p>This will copy all current data into the table you specify.  If the table does not exist, it will be created for you.</p>
+				<form class="form-horizontal" ng-submit="tools.table.migrate(migration)">
+					<div class="form-group">
+						<label for="newClass" class="col-sm-4 control-label">Table: </label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" id="newClass" placeholder="No spaces" ng-model="migration.name">
+						</div>
+					</div>
+					<div class="form-group pull-right">
+						<button type="submit" class="btn btn-danger" ng-show="!migrationStatus">Migrate {{list.length}}</button>
+						<button class="btn btn-disabled" ng-show="migrationStatus">{{migrationStatus | number:0}}% Migrated</button>
+					</div>
+				</form>
+			</div>	
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+
+<div id="mergeModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Data Merge</h4>
+			</div>
+			<div class="modal-body">
+				<select class="form-control" ng-options="mergeType for mergeType in mergeTypes" ng-model="merge.type"></select>
+				<div ng-include="merge.type+'.merge'"></div>
+				<div class="row">
+					<div class="col-md-4">
+						<div class="list-group">
+							<div class="list-group-item active">Original Data</div>
+							<div class="list-group-item bg-danger"><input type="checkbox" ng-model="merge.removeOld"> Remove Old Rows</div>
+							<div class="list-group-item move" ng-repeat="col in merge.columns.left" ng-click="tools.merge.join('left', col)">
+								<spam>{{col}}</spam>
+								<i class="fa fa-trash pull-right" ng-class="{'text-danger':merge.columns.right.indexOf(col) != -1}" ng-click="tools.merge.remove(merge.columns.left, col)"></i>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="list-group">
+							<div class="list-group-item active">Join At Column(s)</div>
+							<div class="list-group-item" ng-repeat="col in merge.columns.join">
+								<span>{{col.left}} @ {{col.right}}</span>
+								<i class="fa fa-trash pull-right" ng-click="tools.merge.rJoin(col)"></i>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="list-group">
+							<div class="list-group-item active">New Data</div>
+							<div class="list-group-item bg-success"><input type="checkbox" ng-model="merge.addNew"> Add New Rows</div>
+							<div class="list-group-item move" ng-repeat="col in merge.columns.right">
+								<i class="fa fa-chevron-left" ng-click="tools.merge.join('right', col)"></i>
+								<spam ng-click="tools.merge.cast(col)">{{col}}</spam>
+								<i class="fa fa-trash pull-right" ng-class="{'text-danger':merge.columns.left.indexOf(col) != -1}" ng-click="tools.merge.remove(merge.columns.right, col)"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-info" ng-click="tools.merge.act()">Merge</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+
+<div id="formModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Edit in a form.</h4>
+			</div>
+			<div class="modal-body">
+				<div class="list-group">
+					<a class="list-group-item" ng-repeat="form in forms" target="_new" href="#/forms/{{form.objectId}}?action=fill&for={{focus.objectId}}">{{form.title}}</a>
+				</div>
+			</div>	
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+
+<script type="text/ng-template" id=".merge">
+	<div></div>
+</script>
+<script type="text/ng-template" id="table.merge">
+	<select class="form-control" ng-model="merge.db" ng-options="t as t.className for t in schema" ng-blur="tools.merge.display('db')">Database</select>
+	<input type="text" class="form-control" ng-model="merge.query" placeholder="DB Query">
+</script>
+<script type="text/ng-template" id="file.merge">
+	<div class="well" parent="merge" file-manager="tools.merge.loadFile">Load File</div>
+</script>
+<script type="text/ng-template" id="plain.merge">
+	<textarea class="form-control" ng-model="merge.plain" placeholder="Paste JSON here." ng-blur="tools.merge.display('plain')"></textarea>
+</script>
+

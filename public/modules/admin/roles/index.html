@@ -1,0 +1,43 @@
+<div class="container" ng-controller="AdminRoles">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="well">
+				<h1>Roles</h1>
+				<ul class="list-group">
+					<li class="list-group-item" ng-repeat="role in roles">
+						<a class="badge pull-left" ng-hide="role.edit" ng-click="tools.roles.edit(role)">Edit</a>
+						<a class="badge pull-left" ng-show="role.edit" ng-click="tools.roles.save(role)">Save</a>
+						{{role.name}}
+						<a class="badge pull-right" ng-show="editUser" ng-click="tools.users.assign(role)">&gt;</a>
+						<div class="well" ng-show="role.edit">
+							<ul class="list-group">
+								<li class="list-group-item" ng-repeat="user in role.users">
+									<a class="badge" title="Revoke Permission" ng-click="tools.roles.revoke(user)">X</a> {{user.username}}
+								</li>
+							</ul>
+						</div>
+					</li>
+					<li class="list-group-item">
+						<div class="input-group">
+							<input type="text" class="form-control" ng-model="temp.role" placeholder="New Role">
+							<div class="input-group-addon" ng-click="tools.roles.create(temp.role)">Create</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="well">
+				<h1>Users</h1>
+				<ul class="list-group">
+					<li class="list-group-item" ng-repeat="user in users">
+						<a class="badge pull-left" ng-show="tools.roles.canAddUser(user)" ng-click="tools.roles.assign(user)">&lt;</a>
+						{{user.username}}
+						<a class="badge pull-right" ng-hide="user.edit" ng-click="tools.users.edit(user)">Edit</a>
+						<a class="badge pull-right" ng-show="user.edit" ng-click="tools.users.save(user)">Save</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,4 @@
+<div class="drawer" ng-class="drawer.position" ng-show="drawer.visable" style="height: {{drawer.height}};">
+	<a class="close btn btn-xs btn-default" ng-click="drawer.visable = false">x</a>
+	<div ng-include="drawer.partial"></div>
+</div>

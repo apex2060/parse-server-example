@@ -1,0 +1,356 @@
+<script type="text/ng-template" id="undefined.rule">
+	<p>Rule not available.</p>
+</script>
+
+<script type="text/ng-template" id="time.rule">
+<table class="table">
+	<tr>
+		<th>Day</th>
+		<th>Start</th>
+		<th>End</th>
+		<th>Flow</th>
+		<th>Remove</th>
+	</tr>
+	<tr ng-repeat="time in rule.times">
+		<td><select class="form-control" ng-options="day for day in days" ng-model="time.day"></select></td>
+		<td><input type="time" class="form-control" ng-model="time.start" title="Start time"></td>
+		<td><input type="time" class="form-control" ng-model="time.end" title="End time"></td>
+		<td><select class="form-control" ng-options="index as flow.title for (index, flow) in number.flows" ng-model="time.flow"></select></td>
+		<td>
+			<a class="btn btn-danger" ng-click="tools.item.remove(rule.times, time)">Delete</a>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3">All Other Times</td>
+		<td><select class="form-control" ng-options="index as flow.title for (index, flow) in number.flows" ng-model="rule.default"></select></td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr class="bg-info">
+		<td><select class="form-control" ng-options="day for day in days" ng-model="block.day"></select></td>
+		<td><input type="time" class="form-control" ng-model="block.start" title="Start time"></td>
+		<td><input type="time" class="form-control" ng-model="block.end" title="End time"></td>
+		<td><select class="form-control" ng-options="index as flow.title for (index, flow) in number.flows" ng-model="block.flow"></select></td>
+		<td>
+			<button type="submit" class="btn btn-success" ng-click="tools.item.copyTo(rule.times, block)">Add</button>
+		</td>
+	</tr>
+</table>
+</script>
+
+<script type="text/ng-template" id="number.rule">
+<div>
+	<h1>Number</h1>
+	<h2>From || To (This number) || Rule</h2>
+</div>
+</script>
+
+<script type="text/ng-template" id="table.rule">
+<div>
+	<h1>Table</h1>
+	<h2>Table || Query || Rule</h2>
+</div>
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/ng-template" id="say.action">
+<div class="panel panel-default">
+	<div class="panel-heading" data-toggle="collapse" data-target="#rule{{$parent.$parent.$index}}say{{$index}}">Say <i class="fa fa-trash pull-right" ng-click="tools.item.remove(focus.actions, action)"></i></div>
+	<div id="rule{{$parent.$parent.$index}}say{{$index}}" class="panel-body collapse">
+		<select class="form-control" ng-model="action.how">
+			<option value="text">Text</option>
+			<option value="mp3">MP3</option>
+			<option value="qry">Lookup</option>
+		</select>
+		<div ng-show="action.how=='text'">
+			<textarea class="form-control" ng-model="action.text" placeholder="What to say"></textarea>
+		</div>
+		<div ng-show="action.how=='mp3'">
+			<input type="url" class="form-control" ng-model="action.url" placeholder="URL">
+		</div>
+		<div ng-show="action.how=='qry'">
+			<table class="table">
+				<tr>
+					<td><input type="text" class="form-control" ng-model="action.qry.table" placeholder="Table"></td>
+					<td><input type="text" class="form-control" ng-model="action.qry.col" placeholder="Query Column"></td>
+					<td><input type="text" class="form-control" ng-model="action.qry.what" placeholder="Query Value"></td>
+				</tr>
+				<tr>
+					<td colspan="3"><textarea class="form-control" ng-model="action.qry.template" placeholder="This is: { { data.column } }"></textarea></td>
+				</tr>
+				<tr>
+					<td colspan="3"><textarea class="form-control" ng-model="action.text" placeholder="This will only be played if there were no lookup results."></textarea></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/ng-template" id="forward.action">
+<div class="panel panel-default">
+	<div class="panel-heading" data-toggle="collapse" data-target="#rule{{$parent.$parent.$index}}forward{{$index}}">Forward <i class="fa fa-trash pull-right" ng-click="tools.item.remove(focus.actions, action)"></i></div>
+	<div id="rule{{$parent.$parent.$index}}forward{{$index}}" class="panel-body collapse">
+		<label title="If sequential dial is checked, only one number will be attempted at a time.">
+			<input type="checkbox" ng-model="action.sequential"> Sequential Dial
+		</label>
+		<br>
+		<label ng-click="tools.action.record.modal(action)">
+			<i class="fa fa-cog"></i> Record Call
+		</label>
+		<select class="form-control" ng-model="action.how">
+			<option value="number">Number</option>
+			<!--<option value="endpoint">Endpoint</option>-->
+			<!--<option value="role">Role</option>-->
+			<!--<option value="qry">Lookup</option>-->
+		</select>
+		<div ng-show="action.how=='number'">
+			<div class="input-group" ng-repeat="num in action.numbers track by $index">
+				<input type="text" class="form-control" ng-model="num" disabled="true">
+				<span class="input-group-addon"><i class="fa fa-trash" ng-click="tools.item.remove(action.numbers, num)"></i></span>
+			</div>
+			<form ng-submit="tools.flow.forward.addNumber(action)">
+				<div class="input-group">
+					<input type="text" class="form-control" ng-model="action.number" placeholder="Number or SIP Endpoint">
+					<span class="input-group-addon"><i class="fa fa-plus"></i></span>
+				</div>
+			</form>
+		</div>
+		<div ng-show="action.how=='endpoint'">
+			<select class="form-control" ng-options="endpoint for endpoint in endpointList" ng-model="action.endpoint"></select>
+		</div>
+		<div ng-show="action.how=='role'">
+			<input type="text" class="form-control" ng-model="action.role" placeholder="Role">
+		</div>
+		<div ng-show="action.how=='qry'">
+			<table class="table">
+				<tr>
+					<td><input type="text" class="form-control" ng-model="action.qry.table" placeholder="Table"></td>
+					<td><input type="text" class="form-control" ng-model="action.qry.col" placeholder="Query Column"></td>
+					<td><input type="text" class="form-control" ng-model="action.qry.what" placeholder="Query Value"></td>
+					<td><input type="text" class="form-control" ng-model="action.column" placeholder="Forwarding Column"></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+</script>
+
+
+
+<script type="text/ng-template" id="menu.action">
+<div class="panel panel-default">
+	<div class="panel-heading" data-toggle="collapse" data-target="#rule{{$parent.$parent.$index}}menu{{$index}}">Menu <i class="fa fa-trash pull-right" ng-click="tools.item.remove(focus.actions, action)"></i></div>
+	<div id="rule{{$parent.$parent.$index}}menu{{$index}}" class="panel-body collapse">
+		<label title="If checked, will say: for (alias) press (extention).">
+			<input type="checkbox" ng-model="action.read"> Read Menu
+		</label>
+		<br>
+		<label ng-click="tools.action.record.modal(action)">
+			<i class="fa fa-cog"></i> Record Call
+		</label>
+		<select class="form-control" ng-model="action.how">
+			<option value="static">Static</option>
+			<!--<option value="endpoint">Endpoint</option>-->
+			<!--<option value="role">Role</option>-->
+			<!--<option value="qry">Lookup</option>-->
+		</select>
+		<div ng-show="action.how=='static'">
+			<textarea class="form-control" ng-model="action.say" placeholder="Say"></textarea>
+			<table class="table">
+				<tr>
+					<th>Alias</th>
+					<th>Extention</th>
+					<th>Forward</th>
+					<th>Remove</th>
+				</tr>
+				<tr ng-repeat="item in action.items">
+					<td><input type="text" class="form-control" ng-model="item.alias" placeholder="John/Jane Doe"></td>
+					<td><input type="text" class="form-control" ng-model="item.extention" placeholder="1,2,3..."></td>
+					<td><input type="text" class="form-control" ng-model="item.forward" placeholder="Number or SIP Endpoint (User, Action)"></td>
+					<td><a class="btn btn-danger" ng-click="tools.item.remove(action.items, item)"><i class="fa fa-trash"></i></a></td>
+				</tr>
+			</table>
+			<a class="btn btn-info" ng-click="tools.flow.menu.addItem(action)">Add Menu Item</a>
+		</div>
+		<div ng-show="action.how=='endpoint'">
+			<select class="form-control" ng-options="endpoint for endpoint in endpointList" ng-model="action.endpoint"></select>
+		</div>
+		<div ng-show="action.how=='role'">
+			<input type="text" class="form-control" ng-model="action.role" placeholder="Role">
+		</div>
+		<div ng-show="action.how=='qry'">
+			<table class="table">
+				<tr>
+					<td><input type="text" class="form-control" ng-model="action.qry.table" placeholder="Table"></td>
+					<td><input type="text" class="form-control" ng-model="action.qry.col" placeholder="Query Column"></td>
+					<td><input type="text" class="form-control" ng-model="action.qry.what" placeholder="Query Value"></td>
+					<td><input type="text" class="form-control" ng-model="action.column" placeholder="Menu Column"></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+</script>
+
+
+
+
+
+<!--MODALS-->
+<div class="modal fade" id="newNumberModal" tabindex="-1" role="dialog" aria-labelledby="newNumber">
+<div class="modal-dialog" role="document">
+	<div class="modal-content">
+		<div class="modal-header">
+			<span class="pull-right">
+				<!--<i class="fa" ng-class="action.record.active ? 'fa-toggle-on' : 'fa-toggle-off'" ng-click="tools.action.record.toggle(action)"></i>-->
+			</span>
+			<h4 class="modal-title" id="newNumber">Number Registration</h4>
+		</div>
+		<div class="modal-body">
+			<form class="form-horizontal" ng-submit="tools.number.search(numberSearch)">
+				<div class="form-group">
+					<label class="col-sm-3 control-label">Country Code</label>
+					<div class="col-sm-9">
+						<select type="text" class="form-control" ng-options="cc.code as cc.title for cc in countryCodes" ng-model="numberSearch.country_iso"></select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label">Search</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="Area Code & Prefix" ng-model="numberSearch.pattern">
+							<span class="input-group-addon" ng-click="tools.number.search(numberSearch)">Search</span>
+						</div>
+					</div>
+				</div>
+			</form>
+			<div class="list-group">
+				<div class="list-group-item" ng-repeat="n in numberOptions">
+					<span title="SMS: {{n.sms_enabled}} Voice: {{n.voice_enabled}}">{{n.number}}</span>
+					<span class="label label-info" title="{{n.region}}">{{n.rate_center || n.region}}</span>
+					<i class="fa fa-download pull-right" title="Purchase" ng-click="tools.number.purchase(n)"></i>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		</div>
+	</div>
+</div>
+</div>
+
+
+<div class="modal fade" id="newEndpointModal" tabindex="-1" role="dialog" aria-labelledby="newNumber">
+<div class="modal-dialog" role="document">
+	<div class="modal-content">
+		<form class="form-horizontal" ng-submit="tools.endpoint.save(endpoint)">
+			<div class="modal-header">
+				<span class="pull-right">
+					<!--<i class="fa" ng-class="action.record.active ? 'fa-toggle-on' : 'fa-toggle-off'" ng-click="tools.action.record.toggle(action)"></i>-->
+				</span>
+				<h4 class="modal-title" id="newNumber">Endpoint Registration</h4>
+			</div>
+			<div class="modal-body">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Alias</label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control" placeholder="Full Name" ng-model="endpoint.alias">
+						</div>
+					</div>
+					<div class="form-group" title="Call out number">
+						<label class="col-sm-3 control-label">Number</label>
+						<div class="col-sm-9">
+							<select type="text" class="form-control" ng-options="num.number as num.number for num in numbers" ng-model="endpoint.number"></select>
+						</div>
+					</div>
+					<div class="form-group" ng-hide="endpoint.origin=='cloud'">
+						<label class="col-sm-3 control-label">Username</label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control" placeholder="Username" ng-model="endpoint.username">
+						</div>
+					</div>
+					<div class="form-group" ng-show="endpoint.origin=='cloud'">
+						<label class="col-sm-3 control-label">Account</label>
+						<div class="col-sm-9">
+							<p class="help-block"><b>Endpoint:</b> sip:{{endpoint.username}}@phone.plivo.com</p>
+							<p class="help-block"><b>SIP Server:</b> phone.plivo.com</p>
+							<p class="help-block"><b>User ID:</b> {{endpoint.username}}</p>
+							<p class="help-block"><b>Auth ID:</b> {{endpoint.username}}</p>
+							<a href="https://play.google.com/store/apps/details?id=com.softphone" target="_new" title="Download Grandstream app."><img ng-src="{{endpoint.qrl}}"></a>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Password</label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control" placeholder="Password" ng-model="endpoint.password">
+						</div>
+					</div>
+			</div>
+			<div class="modal-footer">
+				<a class="btn btn-danger" ng-show="endpoint.objectId" ng-disabled="status" ng-click="tools.endpoint.delete(oEndpoint)">{{status.delete || 'Delete'}}</a>
+				<button type="submit" class="btn btn-success" ng-disabled="status">{{status.save || 'Save'}}</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</form>
+	</div>
+</div>
+</div>
+
+<div class="modal fade" id="recordSettingsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal-dialog" role="document">
+	<div class="modal-content">
+		<div class="modal-header">
+			<span class="pull-right">
+				<i class="fa" ng-class="action.record.active ? 'fa-toggle-on' : 'fa-toggle-off'" ng-click="tools.action.record.toggle(action)"></i>
+			</span>
+			<h4 class="modal-title" id="myModalLabel">Record Settings</h4>
+		</div>
+		<div class="modal-body">
+			<form class="form-horizontal">
+				<div class="form-group">
+					<label class="col-sm-3 control-label">Max Recording Length</label>
+					<div class="col-sm-9">
+						<input type="number" class="form-control" placeholder="In Seconds" ng-model="action.record.maxLength">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-3 col-sm-9">
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" ng-model="action.record.playBeep"> Play Beep
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-3 col-sm-9">
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" ng-model="action.record.notify"> Notify
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label">Data Sharing</label>
+					<div class="col-sm-9">
+						<div class="well" ng-click="tools.action.record.acl()">{{action.record.ACL? 'Custom Sharing Set' : 'No Sharing Set'}}</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Confirm</button>
+		</div>
+	</div>
+</div>
+</div>

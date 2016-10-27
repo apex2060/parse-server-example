@@ -1,0 +1,78 @@
+<div class="container-fluid" ng-controller="InsightCtrl">
+	<div ng-include="'/modules/insight2/templates.html'"></div>
+	
+	<ul class="nav nav-tabs" role="tablist">
+		<li role="presentation" class="active"><a href="#queries" aria-controls="queries" role="tab" data-toggle="tab">Queries</a></li>
+		<li role="presentation"><a href="#tables" aria-controls="tables" role="tab" data-toggle="tab">Tables</a></li>
+		<li role="presentation"><a href="#visualize" aria-controls="visualize" role="tab" data-toggle="tab">Visualize</a></li>
+		<li role="presentation"><a href="#produce" aria-controls="produce" role="tab" data-toggle="tab">Produce</a></li>
+	</ul>
+	
+	<!-- Tab panes -->
+	<div class="tab-content">
+		<div role="tabpanel" class="tab-pane active" id="queries">
+			<textarea class="form-control" placeholder="Template" ng-model="insight.template" ng-model-options="{updateOn:'blur'}"></textarea>
+			<div class="panel-group" id="queryAccord" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-default" ng-repeat="d in insight.data">
+					<div class="panel-heading" role="tab" id="headingOne">
+						<h4 class="panel-title">
+							<a role="button" data-toggle="collapse" data-parent="#queryAccord" href="#data{{$index}}" aria-expanded="true" aria-controls="data{{$index}}">{{d.table}} &gt; {{d.alias}}</a>
+						</h4>
+					</div>
+					<div id="data{{$index}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+						<div class="panel-body">
+							<form class="form-horizontal">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Table</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" placeholder="Table" ng-model="d.table">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Alias</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" placeholder="alias (No Spaces)" ng-model="d.alias">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Query</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" placeholder="?where={...}" ng-model="d.query">
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<a class="btn btn-block btn-info" ng-click="tools.data.add()">Add Data Point</a>
+			<div class="well">
+				<p>js: </p>
+				<textarea class="form-control" placeholder="{}" ng-model="insight.js"></textarea>
+				<p class="help-block">js:{init:function(data){}} will be called when all data has been loaded.</p>
+				<p class="help-block">These can be called from within the template using: js.init() etc.</p>
+			</div>
+			<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="tools.preview()">Run</button>
+		</div>
+		<div role="tabpanel" class="tab-pane" id="tables">
+			<div class="row">
+				<div class="col-md-3 col-lg-2" ng-repeat="meta in insight.meta">
+					<div class="panel panel-default">
+						<div class="panel-heading">{{meta.alias}}</div>
+						<div class="list-group-item" ng-repeat="col in meta.cols">{{col}}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div role="tabpanel" class="tab-pane" id="visualize">
+			<div ng-repeat="viz in insight.viz">
+				<div class="row">
+					<div ng-repeat="chart in viz.charts" class="col-md-4">
+						<div ng-include="chart.template"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div role="tabpanel" class="tab-pane" id="produce">...</div>
+	</div>
+</div>

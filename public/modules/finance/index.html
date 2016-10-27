@@ -1,0 +1,35 @@
+<div ng-controller="PlaidTest" class="container-fluid">
+	<div class="row">
+		<div class="col-md-3">
+			<div class="list-group">
+				<div class="list-group-item active" ng-click="tools.account.focus()">All Accounts</div>
+				<a class="list-group-item" ng-class="{'bg-danger':a.type=='credit'}" ng-repeat="a in plaid.accounts" ng-click="tools.account.focus(a)">
+					<span>{{a.meta.name}} ({{a.meta.number}})</span> <span class="badge">{{a.balance.available | currency}}</span>
+				</a>
+				<div class="list-group-item"><a class="btn btn-block btn-lg btn-info" ng-click="tools.plaid()">Connect Bank Account</a></div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="row bounceIn bounceOut">
+				<div class="col-md-3" ng-repeat="t in plaid.transactions | filter:listSearch">
+					<div class="thumbnail" ng-class="t.amount>0 ? 'bg-danger' : 'bg-success'" style="overflow:hidden;">
+						<p style="white-space:nowrap;">{{t.name}}</p>
+						<hr>
+						<h3>{{-t.amount | currency}}</h3>
+						<span class="label label-info" ng-repeat="tag in t.tags" ng-click="tools.tag.remove(t, tag)">{{tag}}</span>
+						<span class="label label-success" ng-click="tools.tag.add(t)">Tag</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="list-group">
+				<div class="list-group-item active">Tags</div>
+				<a class="list-group-item" ng-repeat="t in tags" ng-click="tools.tag.focus(t)">
+					<span>{{t}}</span>
+				</a>
+				<a class="list-group-item" ng-click="tools.tag.clear(t)">Clear Filter</a>
+			</div>
+		</div>
+	</div>
+</div>

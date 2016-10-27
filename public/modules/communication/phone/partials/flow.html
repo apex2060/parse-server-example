@@ -1,0 +1,26 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h4 class="panel-title">
+			<span ng-model="focus.title" contenteditable ng-model="focus.title">{{focus.title}}</span>
+			<i class="fa fa-trash pull-right" ng-click="tools.item.remove(number.flows, rule)"></i>
+		</h4>
+	</div>
+	<div class="list-group">
+		<div class="list-group-item">
+			<div ng-repeat="action in focus.actions" ng-include="action.type+'.action'"></div>
+		</div>
+		<div class="list-group-item">
+			<div class="dropdown">
+				<button id="addAction" class="btn btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Add
+					<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu" aria-labelledby="addAction">
+					<li><a ng-click="tools.action.add(focus, {type:'say'})">Say</a></li>
+					<li><a ng-click="tools.action.add(focus, {type:'forward'})">Forward</a></li>
+					<li><a ng-click="tools.action.add(focus, {type:'menu'})">Menu</a></li>
+					<li><a ng-click="tools.action.add(focus, {type:'form'})">Form</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

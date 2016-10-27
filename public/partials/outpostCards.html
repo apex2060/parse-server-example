@@ -1,0 +1,63 @@
+<div class="container">
+	<!--<div class="well">-->
+		<h1 class="white wow slideInLeft" data-wow-delay=".6s">{{element.title}}</h1>
+		<div class="row">
+			<div class="col-md-3" ng-repeat="card in element.cards">
+				<div class="card-container wow fadeInLeft" data-wow-delay="{{$index*.5}}s">
+					<div class="card">
+						<div class="front">
+							<div class="cover">
+								<img ng-src="{{card.img.head.src}}" />
+							</div>
+							<div class="weather">
+								<img ng-src="{{card.weather.icon}}"></img>
+								<br>
+								<span class="temperature">{{card.weather.data.main.temp}}</span>
+							</div>
+							<div class="content">
+								<div>
+									<p class="text-center">{{card.title}}</p>
+									<i class="wi wi-night-sleet"></i>
+									<h5>Sunrise: {{card.weather.sunrise()}}</h5>
+									<h5>Sunset: {{card.weather.sunset()}}</h5>
+									<!--<h5><i class="fa fa-envelope-o fa-fw text-muted"></i> inna@creative-tim.com</h5>-->
+								</div>
+								<div class="footer">
+									{{card.status}}
+								</div>
+							</div>
+						</div>
+						<!-- end front panel -->
+						<div class="back">
+							<div class="cover">
+								<img ng-src="{{card.img.head.src}}" />
+							</div>
+							<div class="user">
+								<a ng-href="{{Easy.mapLink(card.geo)}}" target="_new" title="{{card.loc.city}}"><img class="img-circle" ng-src="{{Easy.map(card.geo, '100x100')}}" /></a>
+							</div>
+							<div class="content">
+								<div>
+									<p>{{card.description}}</p>
+									<hr>
+									<h4 class="text-center">Contact</h4>
+									<a href="mailto:{{card.email}}" ng-show="card.email"><i class="fa fa-envelope-o fa-fw text-muted"></i> {{card.email}}</a>
+									<a href="tel:{{card.phone}}" ng-show="card.phone"><i class="fa fa-phone fa-fw text-muted"></i> {{card.phone}}</a>
+								</div>
+							</div>
+							<div class="footer">
+								<div class="social-links text-center">
+									<a href="http://cretive-tim.com" class="facebook"><i class="fa fa-facebook fa-fw"></i></a>
+									<a href="http://cretive-tim.com" class="google"><i class="fa fa-google-plus fa-fw"></i></a>
+									<a href="http://cretive-tim.com" class="twitter"><i class="fa fa-twitter fa-fw"></i></a>
+								</div>
+							</div>
+						</div>
+						<!-- end back panel -->
+					</div>
+					<!-- end card -->
+				</div>
+				<!-- end card-container -->
+			</div>
+		</div>
+	<!--</div>-->
+</div>

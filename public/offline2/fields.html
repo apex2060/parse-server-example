@@ -1,0 +1,156 @@
+<!--Text Input-->
+<script type="text/ng-template" id="text.fill">
+	<label for="field{{$index}}">{{field.title}}</label>
+	<input type="text" class="form-control" id="field{{$index}}" placeholder="{{field.placeholder}}" ng-model="field.value">
+	<span class="help-block"><a target="_new" ng-href="{{field.link}}" ng-show="field.link">Link</a></span>
+</script>
+
+<!--TextArea Input-->
+<script type="text/ng-template" id="textarea.fill">
+	<label for="field{{$index}}">{{field.title}}</label>
+	<textarea class="form-control" id="field{{$index}}" placeholder="{{field.placeholder}}" ng-model="field.value"></textarea>
+	<span class="help-block"><a target="_new" ng-href="{{field.link}}" ng-show="field.link">Link</a></span>
+</script>
+
+<!--Color Input-->
+<script type="text/ng-template" id="color.fill">
+	<label for="field{{$index}}">{{field.title}}</label>
+	<input type="color" class="form-control" id="field{{$index}}" placeholder="{{field.placeholder}}" ng-model="field.value">
+	<span class="help-block"><a target="_new" ng-href="{{field.link}}" ng-show="field.link">Link</a></span>
+</script>
+
+<!--Date Input-->
+<script type="text/ng-template" id="date.fill">
+	<label for="field{{$index}}">{{field.title}}</label>
+	<input type="{{field.subType}}" class="form-control" id="field{{$index}}" placeholder="{{field.placeholder}}" ng-model="field.value">
+	<span class="help-block"><a target="_new" ng-href="{{field.link}}" ng-show="field.link">Link</a></span>
+</script>
+
+<!--Number Input-->
+<script type="text/ng-template" id="number.fill">
+	<label for="field{{$index}}">{{field.title}}</label>
+	<input type="number" class="form-control" id="field{{$index}}" step="{{field.step || 1}}" placeholder="{{field.placeholder}}" ng-model="field.value">
+	<span class="help-block"><a target="_new" ng-href="{{field.link}}" ng-show="field.link">Link</a></span>
+</script>
+
+<!--Select Input-->
+<script type="text/ng-template" id="select.fill">
+	<label for="field{{$index}}">{{field.title}}</label>
+	<select class="form-control" ng-options="item.name as item.title for item in field.options" ng-model="field.value"></select>
+	<span class="help-block"><a target="_new" ng-href="{{field.link}}" ng-show="field.link">Link</a></span>
+</script>
+
+<!--Pointer Input-->
+<script type="text/ng-template" id="pointer.fill">
+	<label for="field{{$index}}">{{field.title}}</label>
+	<select class="form-control" ng-options="item.objectId as item[field.ptr.key] for item in field.options" ng-model="field.value"></select>
+	<span class="help-block"><a target="_new" ng-href="{{field.link}}" ng-show="field.link">Link</a></span>
+</script>
+
+<!--Checkbox Input-->
+<script type="text/ng-template" id="checkbox.fill">
+	<div class="checkbox">
+		<label for="field{{$index}}" title="{{field.placeholder}}">
+			<input type="checkbox" id="field{{$index}}" ng-model="field.value"> 
+			<span>{{field.title}}</span>
+		</label>
+		<span class="help-block"><a target="_new" ng-href="{{field.link}}" ng-show="field.link">Link</a></span>
+	</div>
+</script>
+
+<!--File Input-->
+<script type="text/ng-template" id="file.fill">
+	<div class="list-group">
+		<a class="list-group-item active">{{field.title}}</a>
+		<div class="list-group-item" ng-repeat="file in field.value"><img ng-src="{{file.iconUrl}}"> <a href="{{file.url}}" target="_blank">{{file.name}}</a> <i class="fa fa-trash pull-right" ng-click="tools.item.remove(field.value, file)"></i></div>
+		<div class="panel-footer" ng-click="tools.item.addFiles(field)" ng-show="user">Add Files</div>
+		<div class="panel-footer" ng-hide="user">Login to attach files</div>
+	</div>
+</script>
+
+<!--Image Input-->
+<script type="text/ng-template" id="image.fill">
+	<div class="thumbnail" ng-click="tools.item.addImages(field)">
+		<img ng-src="{{field.value.secure_url}}" alt="Add Image">
+	</div>
+</script>
+
+<!--Signature Input-->
+<script type="text/ng-template" id="signature.fill">
+	<label for="field{{$index}}">{{field.title}}</label>
+	<signature ng-model="field.value"></signature>
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/ng-template" id="header.fill">
+	<div class="well">
+		<div class="btn-group pull-right" ng-show="field.files.length">
+			<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Files <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu">
+				<li ng-repeat="file in field.files">
+					<a ng-href="{{file.url}}" target="_new">
+						<img ng-src="{{file.iconUrl}}">
+						<span>{{file.name}}</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<h1 for="field{{$index}}">{{tools.random.interpolate(field.title, field)}}</h1>
+		<p ng-model="field.p">{{tools.random.interpolate(field.p, field)}}</p>
+	</div>
+</script>
+
+<script type="text/ng-template" id="group.fill">
+	<div ng-class="{well:!field.array}">
+		<div class="btn-group pull-right" ng-show="field.files.length">
+			<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Files <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu">
+				<li ng-repeat="file in field.files">
+					<a ng-href="{{file.url}}" target="_new">
+						<img ng-src="{{file.iconUrl}}">
+						<span>{{file.name}}</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<h1 for="field{{$index}}">{{field.title}}</h1>
+		<p ng-model="field.p">{{field.p}}</p>
+		<div ng-repeat="field in field.fields">
+			<div class="form-group" ng-include="field.type+'.fill'" ng-if="!field.array"></div>
+			<div class="panel panel-default" ng-if="field.array">
+  				<div class="panel-heading">List of {{field.title}}</div>
+  				<div class="panel-body">
+					<div class="panel-group" id="a_{{tools.item.id($parent)}}" role="tablist" aria-multiselectable="true">
+						<div class="panel panel-default" ng-repeat="field in field.value">
+							<div class="panel-heading" role="tab" id="headingOne">
+								<h4 class="panel-title">
+									<a role="button" data-toggle="collapse" data-parent="#a_{{tools.item.id($parent)}}" href="#i_{{tools.item.id($parent)}}_{{$index}}" aria-expanded="false" aria-controls="{{field.name}}{{$index}}">
+										{{field.title}} {{$index+1}}
+									</a>
+									<a class="pull-right" ng-show="field.removeable" ng-click="tools.item.remove($parent.$parent.field.value, field)"><i class="fa fa-trash"></i></a>
+								</h4>
+							</div>
+							<div id="i_{{tools.item.id($parent)}}_{{$index}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+								<div class="panel-body">
+									<div class="form-group" ng-include="field.type+'.fill'"></div>
+								</div>
+							</div>
+						</div>
+						<a class="btn btn-block btn-default" ng-click="tools.item.addArr(field)">Add: {{field.title}}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>

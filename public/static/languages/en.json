@@ -1,0 +1,13 @@
+{
+	"SITE":{
+		"TITLE":"The Easy Business Center",
+		"NAV":{
+			"HOME":"Home",
+			"CONTACT":"Contact",
+			"ADMIN": "Admin Dashboard"
+		},
+		"LOGIN":"Login",
+		"SIGNUP":"Signup",
+		"COPYRIGHT":"2014 Creative Design"
+	}
+}

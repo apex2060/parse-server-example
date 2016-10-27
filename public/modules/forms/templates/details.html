@@ -1,0 +1,132 @@
+<!--Null Details-->
+<script type="text/ng-template" id=".details">
+	<div></div>
+</script>
+
+<!--Text Details-->
+<script type="text/ng-template" id="text.details">
+	<input type="text" class="form-control" placeholder="Field Title"   ng-model="focus.title">
+	<input type="text" class="form-control" placeholder="Field Id"      ng-model="focus.name" title="This should be unique and only contain (letters, numbers, and underscores) - no spaces.">
+	<input type="text" class="form-control" placeholder="Placeholder"   ng-model="focus.placeholder" title="This is helper text">
+</script>
+
+<!--Pointer Details-->
+<script type="text/ng-template" id="pointer.details">
+	<input type="text" class="form-control" placeholder="Field Title"   ng-model="focus.title">
+	<input type="text" class="form-control" placeholder="Field Id"      ng-model="focus.name" 			title="This should be unique and only contain (letters, numbers, and underscores) - no spaces.">
+	<select class="form-control" ng-model="focus.ptr.database" 			ng-options="t.className as t.className for t in schema" ng-blur="tools.item.setSchema(focus.ptr.database)">Database</select>
+	<input type="text" class="form-control" placeholder="Query"			ng-model="focus.ptr.query" 		title="Use this to limit the options.">
+	<select class="form-control" 			placeholder="Display" 		ng-model="focus.ptr.key" 		ng-options="f for f in focus.options">Display</select>
+</script>
+
+<!--Color Details-->
+<script type="text/ng-template" id="color.details">
+	<input type="text" class="form-control" placeholder="Field Title"   ng-model="focus.title">
+	<input type="text" class="form-control" placeholder="Field Id"      ng-model="focus.name" title="This should be unique and only contain (letters, numbers, and underscores) - no spaces.">
+	<input type="text" class="form-control" placeholder="Placeholder"   ng-model="focus.placeholder" title="This is helper text">
+</script>
+
+<!--Date Details-->
+<script type="text/ng-template" id="date.details">
+	<input type="text" class="form-control" placeholder="Field Title"   ng-model="focus.title">
+	<input type="text" class="form-control" placeholder="Field Id"      ng-model="focus.name" title="This should be unique and only contain (letters, numbers, and underscores) - no spaces.">
+	<input type="text" class="form-control" placeholder="Placeholder"   ng-model="focus.placeholder" title="This is helper text">
+	<select class="form-control" ng-model="focus.subType"><option value="date">Date</option><option value="datetime-local">Date & Time</option></select>
+</script>
+
+<!--Number Details-->
+<script type="text/ng-template" id="number.details">
+	<input type="text" class="form-control" placeholder="Field Title"   ng-model="focus.title">
+	<input type="text" class="form-control" placeholder="Step: (5, 1, .1, .01)"   ng-model="focus.step" title="This defines the precision of the input value.">
+	<input type="text" class="form-control" placeholder="Field Id"      ng-model="focus.name" title="This should be unique and only contain (letters, numbers, and underscores) - no spaces.">
+	<input type="text" class="form-control" placeholder="Placeholder"   ng-model="focus.placeholder" title="This is helper text">
+</script>
+
+<!--TextArea Details-->
+<script type="text/ng-template" id="textarea.details">
+	<input type="text" class="form-control" placeholder="Field Title"   ng-model="focus.title">
+	<input type="text" class="form-control" placeholder="Field Id"      ng-model="focus.name" title="This should be unique and only contain (letters, numbers, and underscores) - no spaces.">
+	<input type="text" class="form-control" placeholder="Placeholder"   ng-model="focus.placeholder" title="This is helper text">
+</script>
+
+<!--Checkbox Details-->
+<script type="text/ng-template" id="checkbox.details">
+	<input type="text" class="form-control" placeholder="Field Title"   ng-model="focus.title">
+	<input type="text" class="form-control" placeholder="Field Id"      ng-model="focus.name" title="This should be unique and only contain (letters, numbers, and underscores) - no spaces.">
+	<input type="text" class="form-control" placeholder="Placeholder"   ng-model="focus.placeholder" title="This is helper text">
+</script>
+
+<!--Geo Details-->
+<script type="text/ng-template" id="geoPoint.details">
+	<input type="text" class="form-control" placeholder="Field Title"   ng-model="focus.title">
+	<input type="text" class="form-control" placeholder="Field Id"      ng-model="focus.name" title="This should be unique and only contain (letters, numbers, and underscores) - no spaces.">
+	<input type="text" class="form-control" placeholder="Placeholder"   ng-model="focus.placeholder" title="This is helper text">
+</script>
+
+<!--File Details-->
+<script type="text/ng-template" id="file.details">
+	<input type="text" class="form-control" placeholder="Field Title"   ng-model="focus.title">
+	<input type="text" class="form-control" placeholder="Field Id"      ng-model="focus.name" title="This should be unique<p> and only contain (letters, numbers, and underscores) - no spaces.">
+	<textarea class="form-control"          placeholder="Paragraph Text"ng-model="focus.p"></textarea>
+	<a title="If someone attaches a file, you will not be able to view the file unless it is shared with you." ng-click="tools.modal('filePermissions')">Set Permissions</a>
+</script>
+
+
+<!--Image Details-->
+<script type="text/ng-template" id="image.details">
+	<input type="text" class="form-control" placeholder="Field Title"   ng-model="focus.title">
+	<input type="text" class="form-control" placeholder="Upload Preset" ng-model="focus.preset">
+	<input type="text" class="form-control" placeholder="Field Id"      ng-model="focus.name" title="This should be unique<p> and only contain (letters, numbers, and underscores) - no spaces.">
+</script>
+
+<!--Signature Details-->
+<script type="text/ng-template" id="signature.details">
+	<input type="text" class="form-control" placeholder="Field Title"   ng-model="focus.title">
+	<input type="text" class="form-control" placeholder="Field Id"      ng-model="focus.name" title="This should be unique<p> and only contain (letters, numbers, and underscores) - no spaces.">
+</script>
+
+
+<!--Select Details-->
+<script type="text/ng-template" id="select.details">
+	<input type="text" class="form-control" placeholder="Field Title"   ng-model="focus.title">
+	<input type="text" class="form-control" placeholder="Field Id"      ng-model="focus.name" 			title="This should be unique and only contain (letters, numbers, and underscores) - no spaces.">
+	<input type="text" class="form-control" placeholder="Placeholder"   ng-model="focus.placeholder" 	title="This is helper text">
+	<div class="panel panel-default">
+		<div class="panel-heading">Select Options</div>
+		<div class="panel-body">
+			<table class="table">
+				<tr ng-repeat="item in focus.options track by $index">
+					<td><input type="text" class="form-control" ng-model="item.title" placeholder="Display"></td>
+					<td><input type="text" class="form-control" ng-model="item.name" placeholder="Value"></td>
+					<td><i class="fa fa-trash" ng-click="tools.item.remove(focus.options, item)"></i></td>
+				</tr>
+				<tr>
+					<td colspan="3"><a class="btn btn-block btn-info" ng-click="tools.item.add(focus, 'options', {})">Add Option</a></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</script>
+
+<!--Header-->
+<script type="text/ng-template" id="header.details">
+	<input type="text" class="form-control" placeholder="Field Title"		ng-model="focus.title">
+	<textarea class="form-control"          placeholder="Paragraph Text"	ng-model="focus.p"></textarea>
+	<div class="list-group">
+		<a class="list-group-item active">Files</a>
+		<a class="list-group-item" ng-repeat="file in focus.files"><img ng-src="{{file.iconUrl}}"> {{file.name}} <i class="fa fa-trash pull-right" ng-click="tools.item.remove(fParent.fields, focus.files, file)"></i></a>
+		<a class="list-group-item" ng-click="tools.item.addFiles(focus)">Add Files</a>
+	</div>
+</script>
+
+<!--Grouping-->
+<script type="text/ng-template" id="group.details">
+	<input type="text" 	class="form-control" 	placeholder="Field Title"		ng-model="focus.title">
+	<textarea 			class="form-control" 	placeholder="Paragraph Text"	ng-model="focus.p"></textarea>
+	<input type="text" 	class="form-control" 	placeholder="Field Id" 			ng-model="focus.name" title="This should be unique and only contain (letters, numbers, and underscores) - no spaces.">
+	<div class="list-group">
+		<a class="list-group-item active">Files</a>
+		<a class="list-group-item" ng-repeat="file in focus.files"><img ng-src="{{file.iconUrl}}"> {{file.name}} <i class="fa fa-trash pull-right" ng-click="tools.item.remove(fParent.fields, focus.files, file)"></i></a>
+		<a class="list-group-item" ng-click="tools.item.addFiles(focus)">Add Files</a>
+	</div>
+</script>

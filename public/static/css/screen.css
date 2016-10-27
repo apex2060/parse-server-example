@@ -1,0 +1,265 @@
+body {
+	background-image: url('/static/img/use_your_illusion.png');
+	background-repeat: repeat;
+	background-attachment: fixed;
+}
+header {
+	position: fixed;
+	height: 60px;
+	z-index: 1000;
+}
+*[ng-click] {
+	cursor: pointer;
+}
+header img.profile {
+	height: 30px;
+	margin: -15px 0px;
+	border-radius: 3px;
+}
+section.view {
+	padding: 70px 0px 60px 0px;
+}
+
+.modal-body{
+	overflow: auto;
+}
+.container{
+	border-radius: 3px;
+}
+	.container .carousel{
+		margin-top: 40px;
+		box-shadow: 15px 40px 90px #000;
+	}
+
+
+/* CARD */
+.weather {
+	margin: -50px auto 0px;
+	width: 110px;
+	height: 110px;
+	font-size: 20px;
+	background: #EEE;
+	border-radius: 100px;
+	position: relative;
+	color: #666;
+	border: 3px solid #FFF;
+	text-align: center;
+}
+.front {
+	box-shadow: 1px 1px 3px #000;
+}
+map {
+	display: block;
+	width: 100%;
+	height: 300px;
+}
+.card .footer {
+	position: absolute;
+	width: 100%;
+	bottom: 10px;
+	left: 0px;
+}
+
+
+.drawer {
+	position: fixed;
+	bottom: 0px;
+	left: 0px;
+	width: 100%;
+	background: #333;
+	border-top: 2px solid #000;
+	z-index: 1000000;
+}
+.drawer *:not(input,textarea) {
+	color: #FFF;
+}
+.drawer .close {
+	position: absolute;
+	top: -25px;
+	right: 0px;
+	opacity: 1;
+	color: #F00;
+	background: #FFF;
+}
+
+.tab-pane>.row{
+	margin-top: 30px;
+}
+
+.gray, .grey{
+	-webkit-filter: grayscale(100%);
+	filter: grayscale(100%);
+	filter: gray;
+	filter: url("data:image/svg+xml;utf8,<svg version='1.1' xmlns='http://www.w3.org/2000/svg' height='0'><filter id='greyscale'><feColorMatrix type='matrix' values='0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0' /></filter></svg>#greyscale");
+}
+
+
+/*Overrides*/
+.modal-dialog{
+	z-index: 1050;
+}
+.control-label{
+	line-height: 2.5;
+}
+.white, .text-white{
+	color: #FFF;
+}
+.bg-success{
+	background-color: #dff0d8 !important;
+}
+.bg-danger{
+	background-color: #f2dede !important;
+}
+.dropdown [disabled=disabled],
+.dropdown [disabled=disabled]:visited ,
+.dropdown [disabled=disabled]:active,
+.dropdown [disabled=disabled]:hover {
+    background-color:#d9d9d9 !important;
+    color:#aaa !important;
+}
+
+
+#wrapper{
+	position: relative;
+	margin-top: -79px;
+}
+
+#wrapper.toggled #sidebar-open{
+	position: absolute;
+	left: 5px;
+	top: 5px;
+	z-index: 1000;
+}
+	#wrapper:not(.toggled) #sidebar-open{
+		display: none;
+	}
+#wrapper #sidebar-close{
+	position: absolute;
+	left: 200px;
+	top: 5px;
+	z-index: 1000;
+}
+	#wrapper.toggled #sidebar-close{
+		display: none;
+	}
+
+.nowrap{
+	white-space: nowrap;
+	overflow: hidden;
+}
+span.nowrap{
+	display: block;
+	width: 80%;
+	overflow: hidden;
+	white-space: nowrap;
+}
+.navbar-brand.nowrap{
+	width: 250px;
+}
+.sidebar-nav .bread{
+	margin-top: 5px;
+}
+.sidebar-nav .bread a{
+	display: inline;
+	color: #d9230f;
+	font-size: 16px;
+}
+
+.center *{
+	text-align: center;
+}
+.underline{
+	border-bottom: 1px solid #000;
+}
+
+.px150{
+	height: 150px;
+	width: 150px;
+}
+
+.r3 table{
+	margin-top: 50px;
+}
+
+.hide{
+	display: none;
+}
+.parent:hover .hide, .parent:active .hide{
+	display: block !important;
+}
+.alerts{
+	position: fixed;
+	bottom: 30px;
+	right: 10px;
+	width: 25%;
+}
+
+.noscreen{
+	display: none !important;
+}
+
+
+signature{
+	width: 100%;
+}
+.receipt .signature{
+	width: 150px;
+	margin: -50px;
+	position: relative;
+	left: 50px;
+}
+.receipt .well.tag h1 {
+	font-size: 14px;
+	font-weight: bold;
+	margin: -5px;
+	padding: 0px;
+	color: #888 !important;
+}
+
+
+.fancy{
+	text-align: center;
+	text-shadow: 5px 5px 5px #222;
+	color: #000;
+	height: 500px;
+	line-height: 500px;
+	font-weight: bold;
+}
+
+.highlight{
+	box-shadow: inset 0px 0px 10px #FF0;
+}
+
+/*Makes it possible to add icons to dropdown menu*/
+.dropdown-menu a {white-space:normal;}
+.dropdown-menu > li{position:relative;}
+.dropdown-menu > li > i{position:absolute;right:3px;top:6px;}
+
+.panel-heading .breadcrumb{
+	margin-bottom: 0px;
+}
+
+.move{
+	cursor:move;
+}
+.dragging-parent{
+	display: none;
+}
+.form-dropzone{
+	margin-top:15px;
+	padding:5px;
+	border:1px dashed;
+}
+.form-dropzone>.reveal{
+	display:none;
+}
+.drag-enter{
+	padding:30px;
+}
+.drag-enter>.reveal{
+	display:block;
+}
+
+[ui-sortable] > *{
+	cursor: move;
+}

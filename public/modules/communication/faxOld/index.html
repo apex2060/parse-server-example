@@ -1,0 +1,167 @@
+<div class="container" ng-controller="ComFaxCtrl">
+	<div class="well">
+		<!-- Nav tabs -->
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active"><a href="#sent" aria-controls="sent" role="tab" data-toggle="tab">Faxes Sent</a></li>
+			<li role="presentation"><a href="#received" aria-controls="received" role="tab" data-toggle="tab">Faxes Received</a></li>
+			<li role="presentation"><a href="#send" aria-controls="new" role="tab" data-toggle="tab">Send A Fax</a></li>
+			<li role="presentation" ng-show="user.is('Admin')"><a href="#manage" aria-controls="manage" role="tab" data-toggle="tab">Manage Numbers</a></li>
+		</ul>
+
+		<!-- Tab panes -->
+		<div class="tab-content">
+			<!--LIST FAXES SENT-->
+			<div role="tabpanel" class="tab-pane active" id="sent">
+				<div class="row">
+					<div class="col-md-3">
+						<ul class="list-group">
+							<li class="list-group-item active">
+								<span>Sent</span>
+								<a class="pull-right badge" ng-click="tools.fax.reload()"><i class="fa fa-refresh"></i></a>
+							</li>
+							<li class="list-group-item" ng-repeat="fax in faxesSent" ng-click="tools.fax.focus(fax)">
+								<i class="fa fa-exclamation-triangle" ng-show="fax.status=='failure'" title="Fax Failed: {{fax.details.recipients[0].error_code}}"></i>
+								<span>{{fax.recepients[0].number}} ({{fax.recepients.length}})</span>
+								<a class="pull-right btn btn-xs btn-info" target="_new" href="{{fax.fax.url}}"><i class="fa fa-share-square-o"></i></a>
+								<a class="pull-right btn btn-xs btn-info" ng-click="tools.fax.archive(fax)"><i class="fa fa-eye-slash"></i></a>
+							</li>
+						</ul>
+					</div>
+					<div class="col-md-9">
+						<iframe ng-src="{{tools.file.render(fax.fax.url).url}}" style="width: 100%; height: 500px;"></iframe>
+					</div>
+				</div>
+			</div>
+			
+			<!--LIST FAXES RECEIVED-->
+			<div role="tabpanel" class="tab-pane" id="received">
+				<div class="row">
+					<div class="col-md-3">
+						<ul class="list-group">
+							<li class="list-group-item active">
+								<span>Received</span>
+								<a class="pull-right badge" ng-click="tools.fax.reload()"><i class="fa fa-refresh"></i></a>
+							</li>
+							<li class="list-group-item" ng-repeat="fax in faxesReceived" ng-click="tools.fax.focus(fax)">
+								<i class="fa fa-exclamation-triangle" ng-show="fax.status=='failure'" title="Fax Failed: {{fax.details.error_code}}"></i>
+								<span>{{fax.remoteNumber}}</span>
+								<a class="pull-right btn btn-xs btn-info" target="_new" href="{{fax.fax.url}}"><i class="fa fa-share-square-o"></i></a>
+								<a class="pull-right btn btn-xs btn-info" ng-click="tools.fax.archive(fax)"><i class="fa fa-eye-slash"></i></a>
+							</li>
+						</ul>
+					</div>
+					<div class="col-md-9">
+						<!--<script src="https://apis.google.com/js/platform.js" async defer></script>-->
+						<!--<div id="savetodrive-div"></div>-->
+						<iframe ng-src="{{tools.file.render(fax.fax.url).url}}" style="width: 100%; height: 500px;"></iframe>
+					</div>
+				</div>
+			</div>
+			
+			<!--SEND A FAX-->
+			<div role="tabpanel" class="tab-pane" id="send">
+				<div class="row">
+					<div class="col-md-3">
+						<ul class="list-group">
+							<li class="list-group-item">{{sendFaxResult.status}}</li>
+							<li class="list-group-item">
+								<div class="input-group">
+									<a class="input-group-addon">From: </a>
+									<select class="form-control" ng-options="fax as fax.title for fax in faxNumbers" ng-model="fax.from"></select>
+								</div>
+							</li>
+							<li class="list-group-item">
+								<div class="well wow bounceIn" file-manager="tools.fax.upload">
+									<div class="file-manager">Attach File</div>
+								</div>
+							</li>
+							<li class="list-group-item">
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="To: (10 Digit Number)" ng-model="fax.to">
+									<a class="input-group-addon" ng-click="tools.fax.send(fax.from, fax.to, file)">Send</a>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="col-md-9" file-manager="tools.fax.upload">
+						<h1 ng-hide="faxPreview">Drop File Here</h1>
+						<iframe ng-src="{{preview.pdf.url}}" ng-show="preview.pdf" style="width: 100%; height: 500px;"></iframe>
+						<img ng-src="{{preview.img.url}}" ng-show="preview.img" style="max-width:100%;"></img>
+					</div>
+				</div>
+			</div>
+			
+			<!--MANAGE FAX NUMBERS-->
+			<div role="tabpanel" class="tab-pane" id="manage">
+				<div class="row">
+					<div class="col-md-4">
+						<ul class="list-group">
+							<li class="list-group-item" ng-repeat="entry in faxNumbers" title="{{entry.city}}, {{entry.state}}" ng-click="tools.number.focus(entry)">
+								{{entry.number}} ({{entry.title}})
+							</li>
+							<li class="list-group-item">{{number.status}}</li>
+							<li class="list-group-item">
+								<div class="input-group">
+									<select class="form-control" ng-options="a for a in areaCodes" ng-model="number.areaCode"></select>
+									<a class="input-group-addon" ng-click="tools.number.add(number.areaCode)">Add</a>
+								</div>
+							</li>
+							<li class="list-group-item"><a class="btn btn-info btn-block" ng-click="tools.number.sync()">Sync</a></li>
+						</ul>
+					</div>
+					<div class="col-md-8" ng-show="faxNum">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<span>Number: {{faxNum.number}}</span>
+								<a class="btn btn-info btn-xs pull-right" ng-click="tools.number.save(faxNum)">Save</a>
+								<a class="btn btn-danger btn-xs pull-right" ng-click="tools.number.remove(faxNum)">Delete</a>
+							</div>
+							<div class="panel-body">
+								<p><b>City:</b> {{faxNum.city}}</p>
+								<p><b>State:</b> {{faxNum.state}}</p>
+								<p><b>Assignment:</b> <input type="text" ng-model="faxNum.title"></p>
+
+								<div class="row">
+									<div class="col-md-6">
+										<div class="list-group">
+											<div class="list-group-item">Notification Subscriptions</div>
+											<div class="list-group-item" ng-repeat="a in faxAlerts">
+												<button type="button" class="close pull-right" ng-click="tools.alerts.remove(a, faxNum)"><span aria-hidden="true">&times;</span></button>
+												<ul ng-click="tools.alerts.focus(a)">
+													<li ng-repeat="c in a.rules.criteria"><b>{{c.column}}:</b> {{c.value}}</li>
+												</ul>
+											</div>
+											<div class="list-group-item">
+												<div class="input-group">
+													<input type="text" class="form-control" placeholder="all" title="Remote phone number" ng-model="temp.alert.remoteNumber">
+													<a class="input-group-addon" ng-click="tools.alerts.add(faxNum.number, temp.alert.remoteNumber)">Add</a>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="list-group">
+											<div class="list-group-item">
+												<ul>
+													<li ng-repeat="c in faxAlert.rules.criteria"><b><input type="text" ng-model="c.column">:</b><input type="text" ng-model="c.value"></li>
+												</ul>
+											</div>
+											<div class="list-group-item">
+												<ul>
+													<li ng-repeat="n in faxAlert.rules.notifications"><b><input type="text" ng-model="n.type">:</b><input type="text" ng-model="n.to"></li>
+												</ul>
+											</div>
+											<div class="list-group-item">
+												<a class="btn btn-success btn-block" ng-click="tools.alerts.save(faxAlert)">Save Notification</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

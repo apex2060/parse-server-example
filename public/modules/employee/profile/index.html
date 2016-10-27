@@ -1,0 +1,38 @@
+<div class="container" ng-controller="EmployeeProfileCtrl">
+	<div class="well">
+		<h1 class="wow slideInLeft" data-wow-delay="0.4s">Profile &amp; Settings</h1>
+		<div class="row">
+			<div class="col-md-3">
+				<div media-manager="tools.profile.setPic" class="media-manager wow bounceIn" parent="profile">
+					<div ng-hide="profile.img" class="thumbnail fit">Profile Picture</div>
+					<img ng-show="profile.img" class="thumbnail fit" 
+					ng-class="profile.img.class" 
+					ng-src="{{profile.img.src}}" 
+					title="{{profile.img.name}}">
+					<span class="clearfix" ng-show="profile.img.temp">
+						Uploading picture... This may take a while.
+					</span>
+				</div>
+				<div media-manager="tools.profile.set" class="media-manager wow bounceIn" parent="profile">
+					<div ng-hide="profile.signature" class="thumbnail fit">Signature Picture</div>
+					<img ng-show="profile.signature" class="thumbnail fit" 
+					ng-class="profile.signature.class" 
+					ng-src="{{profile.signature.src}}" 
+					title="{{profile.signature.name}}">
+					<span class="clearfix" ng-show="profile.signature.temp">
+						Uploading signature... This may take a while.
+					</span>
+				</div>
+				<a class="btn btn-danger btn-block" ng-click="tools.profile.signature.clear()">Clear Signature</a>
+				<signature id="signature" callback="tools.profile.signature.sign" parent="profile">Sign On Line</signature>
+				<a class="btn btn-info btn-block" ng-click="tools.profile.signature.save()">Save Signature</a>
+			</div>
+			<div class="col-md-6">
+				<!--{{profile}}-->
+				<a class="btn btn-block btn-info" target="_new" ng-show="user" href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile%20https://www.googleapis.com/auth/calendar%20https://www.googleapis.com/auth/drive&redirect_uri={{config.oauthURL}}&response_type=code&access_type=offline&client_id=693915073881-8lq8g0q78rhabgmmhf86prf34gcaeeff.apps.googleusercontent.com&approval_prompt=force&state={{user.objectId}}">Connect Account</a>
+				<a class="btn btn-block btn-success" ng-click="tools.profile.save()">Save Profile!</a>
+			</div>
+		</div>
+	</div>
+	<drawer></drawer>
+</div>

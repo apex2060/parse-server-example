@@ -1,0 +1,16 @@
+<!--<p>{{vault.entries}}</p>-->
+<div class="list-group" ng-hide="form">
+	<div class="list-group-item active">Data</div>
+	<div class="list-group-item" ng-repeat="(key, entry) in vault.entries">
+		<span>{{tools.random.title(key)}}</span>
+		<span class="badge">{{entry.length}}</span>
+	</div>
+	<div class="list-group-item">
+		<a class="btn btn-block btn-danger" ng-click="tools.admin.entries.clear()">Clear All Entries</a>
+	</div>
+</div>
+<div class="list-group" ng-show="form">
+	<p>List Entries & attributes</p>
+	<p>Allow Clear Data [Synced, All]</p>
+	<p>Allow remove entry</p>
+</div>

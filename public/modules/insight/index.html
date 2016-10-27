@@ -1,0 +1,146 @@
+<div class="container-fluid" ng-controller="InsightCtrl">
+	<div ng-include="'/modules/insight/templates.html'"></div>
+
+
+	
+	<div class="well hidden-lg" ng-show="user.is('Admin')">
+		<a class="btn btn-info" ng-click="tools.edit()">Edit</a>
+		<a class="btn btn-success" ng-click="tools.save()">Save</a>
+	</div>
+	<div class="row">
+		<div class="col-md-3">
+			<div class="panel panel-default">
+				<div class="panel-heading">Data Insight</div>
+				<div class="panel-body">
+					<form>
+						<div class="form-group">
+							<label for="graphSelect">Graph</label>
+							<select id="graphSelect" class="form-control" ng-options="vis for vis in tools.template.list()" ng-model="temp.graph" ng-change="tools.template.set(temp.graph)" title="Graph"></select>
+						</div>
+						<div class="form-group">
+							<label for="labelSelect">Label</label>
+							<select id="labelSelect" class="form-control" ng-options="c.name as c.name for c in focusTable.labelCols" ng-model="graph.label" ng-change="vjs.format()" title="Label"></select>
+						</div>
+						<div class="form-group">
+							<label for="metricSelect">Metric</label>
+							<select id="metricSelect" class="form-control" ng-options="c.name as c.name for c in focusTable.metricCols" ng-model="graph.metric" ng-change="vjs.format()" title="Metric"></select>
+						</div>
+						<!--<div class="form-group">-->
+						<!--	<label for="groupSelect">Group</label>-->
+						<!--	<select id="groupSelect" class="form-control" ng-options="c.name as c.name for c in focusTable.cols" ng-model="graph.group" ng-change="vjs.format()" title="Group"></select>-->
+						<!--</div>-->
+					</form>
+				</div>
+				<div class="panel-footer">
+					<a class="btn btn-default btn-block" ng-click="tools.edit()">Edit</a>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-md-9 col-lg-6">
+			<div class="well well-sm" style="overflow:auto; margin-bottom:15px;">
+				<table class="table table-bordered" style="margin-bottom:0px;" ng-click="tools.table.focus(table)" ng-repeat="table in tables">
+					<tr>
+						<td style="background:#EEE;">{{table.alias}}</td>
+						<td style="{{tools.col.style(col)}}" ng-repeat="col in table.cols" ng-click="tools.col.focus(col)" title="{{col.example}}">{{col.name}}</td>
+						<td><a class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></a></td>
+					</tr>
+				</table>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">{{focusTable.alias}}: {{newData[focusTable.alias].length}}/{{data[focusTable.alias].length}}</div>
+				<div class="panel-body" ng-include="insight.template"></div>
+			</div>
+		</div>
+		
+		<div class="col-md-3">
+			<div ng-include="tools.col.options()"></div>
+		</div>
+	</div>
+	
+	
+
+	<div id="PtrModal" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Pointer to {{focus.item.objectId}} in {{focus.table}}</h4>
+				</div>
+				<div class="modal-body modal-lg">
+					<table class="table table-striped">
+						<tr>
+							<th ng-repeat="ttl in focus.columns">{{ttl}}</th>
+						</tr>
+						<tr ng-repeat="row in focus.list">
+							<td ng-repeat="ttl in focus.columns">{{row[ttl]}}</td>
+						</tr>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<a class="btn btn-info pull-left" target="_new" ng-repeat="form in focus.forms" href="#/forms/{{form.objectId}}?action=fill&for={{focus.item.objectId}}">{{form.title}}</a>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
+	<div class="modal fade" id="editInsight" tabindex="-1" role="dialog" aria-labelledby="insightEdit">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="insightEdit">Edit Insight</h4>
+				</div>
+				<div class="modal-body">
+					<div class="panel-group" id="queryAccord" role="tablist" aria-multiselectable="true">
+						<div class="panel panel-default" ng-repeat="d in insight.data">
+							<div class="panel-heading" role="tab" id="headingOne">
+								<h4 class="panel-title">
+									<a role="button" data-toggle="collapse" data-parent="#queryAccord" href="#data{{$index}}" aria-expanded="true" aria-controls="data{{$index}}">{{d.table}} &gt; {{d.alias}}</a>
+								</h4>
+							</div>
+							<div id="data{{$index}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+								<div class="panel-body">
+									<form class="form-horizontal">
+										<div class="form-group">
+											<label class="col-sm-2 control-label">Table</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control" placeholder="Table" ng-model="d.table">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">Alias</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control" placeholder="alias (No Spaces)" ng-model="d.alias">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">Query</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control" placeholder="?where={...}" ng-model="d.query">
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<a class="btn btn-block btn-info" ng-click="tools.data.add()">Add Data Point</a>
+					<div class="well">
+						<p>js: </p>
+						<textarea class="form-control" placeholder="{}" ng-model="insight.js"></textarea>
+						<p class="help-block">js:{init:function(data){}} will be called when all data has been loaded.</p>
+						<p class="help-block">These can be called from within the template using: js.init() etc.</p>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="tools.preview()">Preview</button>
+					<!--<button type="button" class="btn btn-primary">Save</button>-->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

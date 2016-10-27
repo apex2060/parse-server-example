@@ -1,0 +1,7 @@
+<div ng-controller="EndpointTest" class="list-group">
+    <input type="text" placeholder="alias" ng-model="params.alias">
+    <input type="text" placeholder="username" ng-model="params.username">
+    <input type="text" placeholder="password" ng-model="params.password">
+    <a ng-click="tools.create(params)">Create Endpoint</a>
+    {{endpoint}}
+</div>

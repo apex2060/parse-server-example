@@ -1,0 +1,40 @@
+.child{
+	display: none;
+}
+.parent:hover .child{
+	display: block;
+}
+[ng-click]{
+	cursor: pointer;
+}
+
+.lowVision{
+	
+}
+.lowVision label{
+	font-size: 24px;
+	color: #000;
+}
+.lowVision input{
+	font-size: 48px;
+	height: 60px;
+	color: #000;
+}
+.lowVision h1{
+	font-size: 64px;
+	text-align: center;
+}
+.lowVision .dropdown-menu>li>a{
+	padding: 10px 5px;
+	font-size: 32px;
+}
+
+.formSearch button{
+	color: #000;
+	font-size: 24px;
+}
+.formSearch ul{
+	width: 100%;
+	max-height: 400px;
+	overflow: auto;
+}

@@ -1,0 +1,37 @@
+<div class="row" ng-hide="user">
+	<div class="col-md-12">
+		<div class="jumbotron">
+			<h1>Setup</h1>
+			<a class="btn btn-info btn-lg btn-block" ng-click="tools.login()">Login</a>
+		</div>
+	</div>
+</div>
+<div class="row" ng-show="user">
+	<div class="col-md-12">
+		<div class="jumbotron">
+			<h1>Setup</h1>
+			<p>Set Master PIN</p>
+			<a class="btn btn-info btn-lg btn-block" ng-click="tools.login(true)">Switch Account</a>
+		</div>
+	</div>
+	
+	<div class="col-md-3">
+		<div class="list-group">
+			<div class="list-group-item active">Offline Forms</div>
+			<div class="list-group-item" ng-click="tools.admin.form.focus(form)" ng-repeat="form in forms">
+				<span>{{form.title}}</span>
+				<span class="label pull-right" ng-class="vault.forms[form.objectId] ? 'label-success' : 'label-danger'" ng-click="tools.toggleForm(form)">{{!!vault.forms[form.objectId]}}</span>
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-md-9" ng-show="form">
+		<div class="panel panel-default">
+			<div class="panel-heading">{{form.title}}</div>
+			<div class="panel-body">
+				<input class="form-control" placeholder="PIN" ng-model="form.pin">
+			</div>
+			<div class="panel-footer clearfix"><a class="btn btn-success pull-right" ng-click="tools.admin.form.save(form)">Save</a></div>
+		</div>
+	</div>
+</div>

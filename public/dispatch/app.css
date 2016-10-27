@@ -1,0 +1,9 @@
+.child{
+    display: none;
+}
+.parent:hover .child{
+    display: block;
+}
+[ng-click]{
+    cursor: pointer;
+}

@@ -1,0 +1,73 @@
+<script type="text/ng-template" id=".snippet">
+	<div></div>
+</script>
+
+<script type="text/ng-template" id="options.snippet">
+	<div class="dropdown pull-right">
+	<a class="btn btn-info" target="_new" href='#/forms/buATfN4Yeo?action=fill&data={"phone":"{{event.PhoneCalls.from}}"}'>Form</a>
+		<button class="btn btn-success dropdown-toggle" type="button" id="replyOptions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+			Respond
+			<span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu" aria-labelledby="replyOptions">
+			<li ng-repeat="option in comOptions" class="text-capitalize"><a href="#">{{option}}</a></li>
+		</ul>
+	</div>
+</script>
+
+
+<script type="text/ng-template" id="Faxes.snippet">
+	<div class="timeline-badge" title="Fax"><i class="fa fa-fax"></i></div>
+	<div class="timeline-panel panel panel-default" ng-class="{inverted: event.Faxes.direction=='sent'}">
+		<div class="panel-heading">
+			<span class="pull-right">
+				<a class="btn btn-warning btn-sm" ng-click="tools.timeline.archive(event)" title="Archive Event"><i class="fa fa-archive"></i></a>
+			</span>
+			<h4 class="panel-title" ng-show="event.Faxes.direction=='sent'">To: {{event.Faxes.to}}</h4>
+			<h4 class="panel-title" ng-hide="event.Faxes.direction=='sent'">From: {{event.Faxes.from}}</h4>
+			<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> {{moment(event.Faxes.createdAt).fromNow()}}</small></p>
+		</div>
+		<ul class="panel-body" title="{{event.Faxes.status}}">
+			<h4><a target="_blank" href="{{event.Faxes.attachment.secure_url}}" title="Open in new window">{{event.Faxes.subject || 'Untitled Fax'}}</a></h4>
+			<iframe style="width: 100%;" ng-src="{{tools.timeline.iframe(event)}}"></iframe>
+		</ul>
+		<div class="panel-footer clearfix" ng-include="'options.snippet'"></div>
+	</div>
+</script>
+
+<script type="text/ng-template" id="PhoneCalls.snippet">
+	<div class="timeline-badge" title="Call"><i class="fa fa-phone"></i></div>
+	<div class="timeline-panel panel {{tools.timeline.status(event)}}" ng-class="{inverted: event.PhoneCalls.direction=='outbound'}">
+		<div class="panel-heading">
+			<span class="pull-right">
+				<a class="btn btn-warning btn-sm" ng-click="tools.timeline.archive(event)" title="Archive Event"><i class="fa fa-archive"></i></a>
+			</span>
+			<h4 class="panel-title" ng-show="event.PhoneCalls.direction=='outbound'" title="From: {{event.PhoneCalls.from}}">To: {{event.PhoneCalls.to}}</h4>
+			<h4 class="panel-title" ng-hide="event.PhoneCalls.direction=='outbound'" title="From: {{event.PhoneCalls.to}}">From: {{event.PhoneCalls.from}}</h4>
+			<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> {{moment(event.PhoneCalls.createdAt).fromNow()}}</small></p>
+		</div>
+		<ul class="panel-body" title="{{event.PhoneCalls.status}}">
+			<h4>Duration: {{event.PhoneCalls.duration}}</h4>
+			<h4>Status: {{event.PhoneCalls.status}}</h4>
+			<h4>Direction: {{event.PhoneCalls.direction}}</h4>
+			<audio controls ng-if="event.PhoneCalls.recording">
+				<source ng-src="{{tools.timeline.recording(event)}}" type="audio/mpeg">
+			</audio>
+		</ul>
+		<div class="panel-footer clearfix" ng-include="'options.snippet'"></div>
+	</div>
+</script>
+		<!--<div class="timeline-badge" title="11 hours ago via Twitter"><i class="glyphicon glyphicon-earphone"></i></div>-->
+		<!--<div class="timeline-panel panel panel-default">-->
+		<!--	<div class="panel-heading">-->
+		<!--		<h4 class="panel-title">Mussum ipsum cacilds</h4>-->
+		<!--		<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> 11 hours ago via Twitter</small></p>-->
+		<!--	</div>-->
+		<!--	<div class="panel-body">-->
+		<!--		<p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis-->
+		<!--			quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>-->
+		<!--	</div>-->
+		<!--	<div class="panel-footer clearfix">-->
+		<!--		<a class="btn btn-info pull-right">Action</a>-->
+		<!--	</div>-->
+		<!--</div>-->

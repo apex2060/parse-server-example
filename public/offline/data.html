@@ -1,0 +1,71 @@
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+	<div class="panel panel-default" ng-repeat="item in vaultStats">
+		<div class="panel-heading" role="tab" id="heading{{$index}}">
+			<h4 class="panel-title">
+				<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{$index}}" aria-expanded="true" aria-controls="collapse{{$index}}">
+					{{item.form.title}}
+				</a>
+				<span class="label pull-right label-success" title="Synced">{{item.status.saved.length}}</span>
+				<span class="label pull-right label-danger" title="Problems">{{item.status.error.length}}</span>
+				<span class="label pull-right label-warning" title="Pending">{{item.status.pending.length}}</span>
+				<span class="label pull-right label-default" title="WIP">{{item.status.wip.length}}</span>
+				<span class="label pull-right label-info" title="Syncing">{{item.status.syncing.length}}</span>
+			</h4>
+		</div>
+		<div id="collapse{{$index}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading{{$index}}">
+			<div class="panel-body">
+				<table class="table">
+					<tr>
+						<th>Object Id</th>
+						<th>Title</th>
+						<th>Status</th>
+						<th>Edit</th>
+						<th>Remove</th>
+					</tr>
+					<tr ng-repeat="entry in item.status.wip" class="active">
+						<td ng-click="tools.entry.focus(entry)">{{entry.dataId || entry.localId}}</td>
+						<td>{{entry.data.title}}</td>
+						<td>WIP</td>
+						<td><a class="btn btn-success" ng-click="tools.form.open(entry)">Edit</a></td>
+						<td><a class="btn btn-danger" ng-click="tools.form.remove(entry)">Remove</a></td>
+					</tr>
+					<tr ng-repeat="entry in item.status.saved" class="success">
+						<td ng-click="tools.entry.focus(entry)">{{entry.dataId || entry.localId}}</td>
+						<td>{{entry.data.title}}</td>
+						<td>Saved</td>
+						<td><a class="btn btn-success" ng-click="tools.form.open(entry)">Edit</a></td>
+						<td><a class="btn btn-danger" ng-click="tools.form.remove(entry)">Remove</a></td>
+					</tr>
+					<tr ng-repeat="entry in item.status.error" class="danger">
+						<td ng-click="tools.entry.focus(entry)">{{entry.dataId || entry.localId}}</td>
+						<td>{{entry.data.title}}</td>
+						<td>Error</td>
+						<td><a class="btn btn-success" ng-click="tools.form.open(entry)">Edit</a></td>
+						<td><a class="btn btn-danger" ng-click="tools.form.remove(entry)">Remove</a></td>
+					</tr>
+					<tr ng-repeat="entry in item.status.pending" class="warning">
+						<td ng-click="tools.entry.focus(entry)">{{entry.dataId || entry.localId}}</td>
+						<td>{{entry.data.title}}</td>
+						<td>Pending</td>
+						<td><a class="btn btn-success" ng-click="tools.form.open(entry)">Edit</a></td>
+						<td><a class="btn btn-danger" ng-click="tools.form.remove(entry)">Remove</a></td>
+					</tr>
+					<tr ng-repeat="entry in item.status.syncing" class="info">
+						<td ng-click="tools.entry.focus(entry)">{{entry.dataId || entry.localId}}</td>
+						<td>{{entry.data.title}}</td>
+						<td>Syncing</td>
+						<td><a class="btn btn-success" ng-click="tools.form.open(entry)">Edit</a></td>
+						<td><a class="btn btn-danger" ng-click="tools.form.remove(entry)">Remove</a></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="well" ng-show="dataDump">
+	{{entry}}
+</div>
+<div class="well">
+	<!--<a class="btn btn-warning btn-block" ng-click="tools.data.clear('synced')">Clear Synced Data</a>-->
+	<a class="btn btn-danger btn-block" ng-click="tools.admin.entries.clear('all')">Clear All Data</a>
+</div>

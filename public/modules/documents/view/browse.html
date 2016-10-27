@@ -1,0 +1,115 @@
+<div class="row">
+	<div class="col-md-9">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<div class="dropdown pull-right">
+					<button class="btn btn-text dropdown-toggle" type="button" id="docTools{{$index}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						Tools <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="docTools{{$index}}">
+						<li><a ng-click="tools.upload.init(focus)"><i class="fa fa-upload" aria-hidden="true"></i> Upload Documents</a></li>
+						<li><a ng-click="tools.folder.add(focus)"><i class="fa fa-folder" aria-hidden="true"></i> New Folder</a></li>
+						<li><a ng-click="tools.folder.acl(focus)" title="All files added to the folder will receive this ACL"><i class="fa fa-share-alt" aria-hidden="true"></i> Access Control</a></li>
+						<li ng-show="user.is('Admin')"><a ng-click="tools.admin.fax.init()"><i class="fa fa-fax" aria-hidden="true"></i> Link Fax</a></li>
+						<li ng-show="user.is('Admin')"><a ng-click="tools.admin.data.init()"><i class="fa fa-server" aria-hidden="true"></i> Link Data</a></li>
+					</ul>
+				</div>
+				<ol class="breadcrumb">
+					<li ng-repeat="f in history"><a ng-class="{'active':$last}" ng-click="tools.folder.focus(f)">{{f.title}}</a></li>
+				</ol>
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-3" ng-repeat="f in focus.folders | filter:listSearch">
+						<div class="well nowrap" ng-click="tools.folder.focus(f)"><i class="fa fa-folder"></i> {{f.title}}</div>
+					</div>
+					<div class="col-md-3" ng-click="tools.folder.add(focus)">
+						<div class="well">Add Folder</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3" ng-repeat="doc in focus.docs | filter:listSearch">
+						<div class="panel" ng-class="tools.ai.docRelation(doc) ? 'panel-success' : 'panel-default'">
+							<div class="panel-heading">
+								<div class="dropdown pull-right">
+									<button class="btn btn-xs btn-text dropdown-toggle" type="button" id="docTools{{$index}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu" aria-labelledby="docTools{{$index}}">
+										<li><a ng-click="tools.fax.init(doc)"><i class="fa fa-fax" aria-hidden="true"></i> Fax</a></li>
+										<li><a ng-click="tools.sign.init(doc)"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Signatures</a></li>
+										<li><a ng-click="tools.fill.request(doc)"><i class="fa fa-gift" aria-hidden="true"></i> Request Fillable Fields</a></li>
+										<!--<li><a ng-click="tools.fax.init(doc)"><i class="fa fa-fax" aria-hidden="true"></i> Fax</a></li>-->
+										<li><a ng-click="tools.doc.acl(doc)"><i class="fa fa-share-alt" aria-hidden="true"></i> Access Control</a></li>
+										<li role="separator" class="divider"></li>
+										<li><a ng-click="tools.doc.save(doc)"><i class="fa fa-save"></i> Save</a></li>
+										<li><a target="_new" href="{{doc.pdf_url || doc.cloudinary.secure_url}}"><i class="fa fa-share-square-o" aria-hidden="true"></i> Open</a></li>
+										<li><a ng-click="tools.doc.remove(doc)"><i class="fa fa-trash"></i> Delete</a></li>
+									</ul>
+								</div>
+								<span class="nowrap" contenteditable ng-model="doc.title" placeholder="Untitled Doc"></span>
+							</div>
+							<div class="panel-body" style="height:200px; overflow:hidden;">
+								<img class="img-responsive" ng-src="{{doc.img_url}}" ng-click="tools.doc.focus(doc)">
+							</div>
+							<!--<div class="panel-footer">-->
+								<!--<a class="btn btn-block btn-success" ng-click="tools.upload.save(doc)">Save</a>-->
+							<!--</div>-->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="panel panel-default" ng-show="focus && !focus.isRoot">
+			<div class="panel-heading">
+				<span>{{focus.title}}</span>
+			</div>
+			<div class="panel-body">
+				<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+					<div class="panel panel-default">
+						<div class="panel-heading" role="tab" id="folderAccessH">
+							<h4 class="panel-title">
+								<a role="button" data-toggle="collapse" data-parent="#accordion" href="#folderAccess" aria-expanded="true" aria-controls="folderAccess">Access</a>
+							</h4>
+						</div>
+						<div id="folderAccess" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="folderAccessH">
+							<div class="panel-body" ng-click="tools.folder.acl(focus)">
+								<div ng-hide="focus.ACL">No Access Set</div>
+								<table class="table" ng-show="focus.ACL">
+									<tr>
+										<th>Entity</th>
+										<th>Read</th>
+										<th>Write</th>
+									</tr>
+									<tr ng-repeat="a in focusAcl">
+										<td>{{a.entity}}</td>
+										<td><i class="fa fa-check" ng-show="a.read"></i></td>
+										<td><i class="fa fa-check" ng-show="a.write"></i></td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading" role="tab" id="folderDataH">
+							<h4 class="panel-title">
+								<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#folderData" aria-expanded="false" aria-controls="folderData">Data</a>
+							</h4>
+						</div>
+						<div id="folderData" class="panel-collapse collapse" role="tabpanel" aria-labelledby="folderDataH">
+							<div class="panel-body">
+								<div class="list-group-item" ng-class="{'list-group-item-success':tools.ai.itemRelation(item)}" ng-repeat="item in data">
+									<span>{{item[focus.data.display]}}</span>
+								</div>
+							</div>
+							<a class="btn btn-block btn-info" ng-click="tools.ai.match(data,focus.docs)">Auto</a>
+						</div>
+					</div>
+				</div>
+				<a class="btn btn-block btn-danger" ng-show="user.is('Admin')" ng-click="tools.folder.remove(focus)">Delete</a>
+			</div>
+		</div>
+	</div>
+</div>

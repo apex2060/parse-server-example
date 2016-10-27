@@ -1,0 +1,21 @@
+CACHE MANIFEST
+# V5
+
+CACHE:
+/favicon.ico
+data.html
+fields.html
+forms.html
+index.html
+setup.html
+sync.html
+
+vendor.js
+app.js
+
+vendor.css
+app.css
+
+# Resources that require the user to be online.
+NETWORK:
+*

@@ -1,0 +1,82 @@
+<div class="white" ng-class="fullScreen ? 'container-fluid' : 'container'" ng-controller="AdminDataCtrl">
+	<div class="row">
+		<form class="col-md-6 form-inline" ng-submit="tools.parseTable.load(parseTableName)">
+			<p>Enter the name of the parse DB you wish to load.</p>
+			<div class="form-group">
+				<input class="form-control" type="text" ng-model="parseTableName">
+				<input class="btn btn-success" type="submit" value="Load Parse Table"/>
+			</div>
+		</form>
+		
+		<form class="col-md-6 form-inline" ng-submit="tools.ssTable.load(spreadsheetId)">
+			<p>Enter the google spreadsheet ID you wish to load.</p>
+			<div class="form-group">
+				<input class="form-control" type="text" ng-model="spreadsheetId">
+				<input class="btn btn-success" type="submit" value="Load Spreadsheet"/>
+			</div>
+		</form>
+	</div>
+	
+	<hr>
+	
+	<!--<div class="row">-->
+	<!--	<div class="col-md-6">-->
+	<!--		<p>The following columns have been removed from the edit table.</p>-->
+	<!--		<ul class="list-group" style="height: 200px; overflow-y:scroll;">-->
+	<!--			<li class="list-group-item" ng-repeat="col in privateCols">{{col}}</li>-->
+	<!--		</ul>-->
+	<!--	</div>-->
+	<!--	<div class="col-md-6">-->
+	<!--		<p>These items need to be mapped to your parse table.</p>-->
+	<!--		<ul class="list-group" style="height: 200px; overflow-y:scroll;">-->
+	<!--			<li class="list-group-item {{tools.ssTable.col.style(col)}}" ng-repeat="col in ssCols" ng-click="tools.ssTable.col.focus(col)">{{col}}</li>-->
+	<!--		</ul>-->
+	<!--		<a class="btn btn-info btn-block" ng-click="tools.ssTable.col.margeAll()">Apply All</a>-->
+	<!--	</div>-->
+	<!--</div>-->
+	<div class="well">
+		<button type="button" class="close pull-right" aria-hidden="true" ng-click="fullScreen=!fullScreen" ng-hide="fullScreen"><i class="fa fa-expand"></i></button>
+		<button type="button" class="close pull-right" aria-hidden="true" ng-click="fullScreen=!fullScreen" ng-show="fullScreen"><i class="fa fa-compress"></i></button>
+		<p>Items in red need to be mapped to your parse table.</p>
+		<table class="table table-bordered" style="table-layout:fixed;">
+			<tr style="color: #900;">
+				<td ng-repeat="col in ssCols track by $index" ng-hide="mapCols.indexOf(col)!=-1" ng-click="tools.ssTable.col.focus(col)">{{col}}</td>
+			</tr>
+		</table>
+		<table class="table table-striped" style="table-layout:fixed;">
+			<thead>
+				<tr>
+					<th style="color:green;" ng-repeat="col in mapCols track by $index">{{col}}</th>
+				</tr>
+				<tr>
+					<th style="{{tools.parseTable.colStyle()}}" ng-repeat="col in parseCols track by $index" ng-click="tools.ssTable.col.set(col, temp.col)">{{col.key}}</th>
+					<th style="{{tools.parseTable.colStyle()}}" ng-click="tools.ssTable.col.set('new', temp.col)">Add Column</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="danger"><td ng-repeat="col in parseCols track by $index" style="overflow:hidden;">{{parseTable[0][col.key]}}</td><td>SAMPLE</td></tr>
+				<tr ng-repeat="row in mapTable">
+					<td ng-repeat="col in parseCols track by $index">
+						<div ng-include="'/modules/admin/tables/dataInputPartials/'+col.type+'.html'"></div>
+						<!--<span>Data Type: {{col.type}}</span>-->
+					</td>
+					<td>
+						<button type="button" class="btn btn-xs btn-danger pull-right" title="Remove Row" ng-click="tools.ssTable.row.remove(row)"><i class="fa fa-trash"></i></button>
+					</td>
+				</tr>
+				<tr class="danger"><td ng-repeat="col in parseCols track by $index" style="overflow:hidden;">{{parseTable[1][col.key]}}</td><td>SAMPLE</td></tr>
+				<tr>
+					<td ng-repeat="col in parseCols track by $index">{{col.type}}</td>
+					<td>Data Type</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="{{parseCols.length+1}}">
+						<a class="btn btn-success btn-block" ng-click="tools.data.upload(parseCols, mapTable)">Add Rows To Table</a>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div>

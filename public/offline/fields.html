@@ -1,0 +1,191 @@
+<!--Text Input-->
+<script type="text/ng-template" id="text.fill">
+	<label for="field{{$index}}">{{field.title}}</label>
+	<input type="text" class="form-control" id="field{{$index}}" placeholder="{{field.placeholder}}" ng-model="field.value" autocomplete="{{field.autoComplete?'on':'off'}}">
+	<span class="help-block" ng-repeat="link in field.links"><a target="_new" ng-href="{{link.href}}">{{link.text}}</a></span>
+</script>
+
+<!--TextArea Input-->
+<script type="text/ng-template" id="textarea.fill">
+	<label for="field{{$index}}">{{field.title}}</label>
+	<textarea class="form-control" id="field{{$index}}" placeholder="{{field.placeholder}}" ng-model="field.value"></textarea>
+	<span class="help-block" ng-repeat="link in field.links"><a target="_new" ng-href="{{link.href}}">{{link.text}}</a></span>
+</script>
+
+<!--Color Input-->
+<script type="text/ng-template" id="color.fill">
+	<label for="field{{$index}}">{{field.title}}</label>
+	<input type="color" class="form-control" id="field{{$index}}" placeholder="{{field.placeholder}}" ng-model="field.value">
+	<span class="help-block" ng-repeat="link in field.links"><a target="_new" ng-href="{{link.href}}">{{link.text}}</a></span>
+</script>
+
+<!--Date Input-->
+<script type="text/ng-template" id="date.fill">
+	<label for="field{{$index}}">{{field.title}}</label>
+	<input type="{{field.subType}}" class="form-control" id="field{{$index}}" placeholder="{{field.placeholder}}" ng-model="field.value">
+	<span class="help-block" ng-repeat="link in field.links"><a target="_new" ng-href="{{link.href}}">{{link.text}}</a></span>
+</script>
+
+<!--Number Input-->
+<script type="text/ng-template" id="number.fill">
+	<label for="field{{$index}}">{{field.title}}</label>
+	<input type="number" class="form-control" id="field{{$index}}" step="{{field.step || 1}}" placeholder="{{field.placeholder}}" ng-model="field.value" autocomplete="{{field.autoComplete?'on':'off'}}">
+	<span class="help-block" ng-repeat="link in field.links"><a target="_new" ng-href="{{link.href}}">{{link.text}}</a></span>
+</script>
+
+<!--Select Input-->
+<script type="text/ng-template" id="select.fill">
+	<label for="field{{$index}}">{{field.title}}</label>
+	<select class="form-control" ng-options="item.name as item.title for item in field.options" ng-model="field.value"></select>
+	<span class="help-block" ng-repeat="link in field.links"><a target="_new" ng-href="{{link.href}}">{{link.text}}</a></span>
+</script>
+
+<!--Pointer Input-->
+<script type="text/ng-template" id="pointer.fill">
+	<label for="field{{$index}}">{{field.title}}</label>
+	<div class="dropdown formSearch" auto-close="outsideClick">
+		<button class="btn btn-inverse btn-block dropdown-toggle" type="button" id="field{{$index}}" data-toggle="dropdown">{{tools.field.display(field) || 'Select One'}}<span class="caret pull-right"></span></button>
+		<ul class="dropdown-menu" role="menu" aria-labelledby="field{{$index}}">
+			<input disable-auto-close type="search" ng-model="serchFilter" class="form-control" placeholder="Search"></input>
+			<li role="presentation" ng-repeat="option in field.options | filter: serchFilter"><a role="menuitem" ng-click="tools.field.select(field, option)">{{option[field.ptr.key]}}</a></li>
+		</ul>
+	</div>
+	<span class="help-block" ng-repeat="link in field.links"><a target="_new" ng-href="{{link.href}}">{{link.text}}</a></span>
+</script>
+
+<!--Checkbox Input-->
+<script type="text/ng-template" id="checkbox.fill">
+	<div class="checkbox">
+		<label for="field{{$index}}" title="{{field.placeholder}}">
+			<input type="checkbox" id="field{{$index}}" ng-model="field.value"> 
+			<span>{{field.title}}</span>
+		</label>
+		<span class="help-block" ng-repeat="link in field.links"><a target="_new" ng-href="{{link.href}}">{{link.text}}</a></span>
+	</div>
+</script>
+
+<!--Geo Input-->
+<script type="text/ng-template" id="geoPoint.fill">
+	<span>{{field.title}}</span>
+	<div class="btn btn-default btn-block" ng-click="tools.item.setGeo(field)">
+		<span>Capture Current Location</span>
+		<br>
+		<span class="label label-info">{{field.value[0]}}</span>
+		<span class="label label-info">{{field.value[1]}}</span>
+	</div>
+	<span class="help-block" ng-repeat="link in field.links"><a target="_new" ng-href="{{link.href}}">{{link.text}}</a></span>
+</script>
+
+<!--File Input-->
+<script type="text/ng-template" id="file.fill">
+	<div class="list-group">
+		<a class="list-group-item active">{{field.title}}</a>
+		<div class="list-group-item">Only available in online forms.</div>
+	</div>
+</script>
+
+<!--Image Input-->
+<script type="text/ng-template" id="image.fill">
+	<label for="field{{$index}}">{{field.title}}</label>
+	<span class="help-block" ng-repeat="link in field.links"><a target="_new" ng-href="{{link.href}}">{{link.text}}</a></span>
+	<div class="row" ng-show="field.array">
+		<div class="col-md-3 col-sm-6" ng-repeat="image in field.value">
+			<div class="thumbnail" style="height:200px; overflow:hidden;">
+				<button type="button" class="close" aria-label="Remove" title="Remove Image" ng-show="field.removeable" ng-click="tools.item.remove(field.value, image)"><span aria-hidden="true">&times;</span></button>
+				<img class="img-responsive" ng-src="{{image.value.secure_url}}">
+			</div>
+		</div>
+		<div class="col-md-3 col-sm-6">
+			<div class="thumbnail" style="height:150px; overflow:hidden;" media-manager="tools.item.addImages" parent="field">
+				<h3 class="text-center" style="line-height:140px;">Add Images</h3>
+			</div>
+		</div>
+	</div>
+	<div class="thumbnail" ng-hide="field.array" media-manager="tools.item.addImages" parent="field">
+		<h3 class="text-center" style="line-height:90px;" ng-hide="field.value">Add Image</h3>
+		<img class="img-responsive" ng-src="{{field.value.secure_url}}" alt="Add Image" ng-show="field.value">
+	</div>
+</script>
+
+<!--Signature Input-->
+<script type="text/ng-template" id="signature.fill">
+	<label for="field{{$index}}">{{field.title}}</label>
+	<signature ng-model="field.value"></signature>
+	<span class="help-block" ng-repeat="link in field.links"><a target="_new" ng-href="{{link.href}}">{{link.text}}</a></span>
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/ng-template" id="header.fill">
+	<div class="well">
+		<div class="btn-group pull-right" ng-show="field.files.length">
+			<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Files <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu">
+				<li ng-repeat="file in field.files">
+					<a ng-href="{{file.url}}" target="_new">
+						<img ng-src="{{file.iconUrl}}">
+						<span>{{file.name}}</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<h1 for="field{{$index}}">{{tools.random.interpolate(field.title, field)}}</h1>
+		<p ng-model="field.p">{{tools.random.interpolate(field.p, field)}}</p>
+		<span class="help-block" ng-repeat="link in field.links"><a target="_new" ng-href="{{link.href}}">{{link.text}}</a></span>
+	</div>
+</script>
+
+<script type="text/ng-template" id="group.fill">
+	<div ng-class="{well:!tools.form.arrayNotVarient(field)}">
+		<div class="btn-group pull-right" ng-show="field.files.length">
+			<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Files <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu">
+				<li ng-repeat="file in field.files">
+					<a ng-href="{{file.url}}" target="_new">
+						<img ng-src="{{file.iconUrl}}">
+						<span>{{file.name}}</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<h1 for="field{{$index}}">{{field.title}}</h1>
+		<p ng-model="field.p">{{field.p}}</p>
+		<span class="help-block" ng-repeat="link in field.links"><a target="_new" ng-href="{{link.href}}">{{link.text}}</a></span>
+		<div ng-repeat="field in field.fields" ng-hide="field.hidden">
+			<div class="form-group" ng-include="field.type+'.fill'" ng-if="!tools.form.arrayNotVarient(field)"></div>
+			<div class="panel panel-default" ng-if="tools.form.arrayNotVarient(field)">
+  				<div class="panel-heading">List of {{field.title}}</div>
+  				<div class="panel-body">
+					<div class="panel-group" id="a_{{tools.item.id($parent)}}" role="tablist" aria-multiselectable="true">
+						<div class="panel panel-default" ng-repeat="field in field.value">
+							<div class="panel-heading" role="tab" id="headingOne">
+								<h4 class="panel-title">
+									<a role="button" data-toggle="collapse" data-parent="#a_{{tools.item.id($parent)}}" href="#i_{{tools.item.id($parent)}}_{{$index}}" aria-expanded="false" aria-controls="{{field.name}}{{$index}}">
+										{{field.title}} {{$index+1}}
+									</a>
+									<a class="pull-right" ng-show="field.removeable" ng-click="tools.item.remove($parent.$parent.field.value, field)"><i class="fa fa-trash"></i></a>
+								</h4>
+							</div>
+							<div id="i_{{tools.item.id($parent)}}_{{$index}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+								<div class="panel-body">
+									<div class="form-group" ng-include="field.type+'.fill'"></div>
+								</div>
+							</div>
+						</div>
+						<a class="btn btn-block btn-default" ng-click="tools.item.addArr(field)">Add: {{field.title}}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>

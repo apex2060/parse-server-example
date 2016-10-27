@@ -1,0 +1,51 @@
+
+<ol class="breadcrumb">
+	<li><a href="#/communication">Communication</a></li>
+	<li class="active">Phone</li>
+</ol>
+
+<nav class="navbar navbar-default">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" ng-click="tools.view('list')">Phone</a>
+		</div>
+
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">File <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="#/communication">Timeline</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a ng-click="tools.number.new()">New Number</a></li>
+						<!--allow search, show list-->
+						<li><a ng-click="tools.endpoint.new()">New Endpoint</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
+
+<div class="row">
+	<div class="col-md-6">
+		<div class="list-group">
+			<div class="list-group-item active">Numbers</div>
+			<a class="list-group-item" ng-click="tools.number.focus(num)" ng-repeat="num in numbers">{{num.number}} - {{num.title}}</a>
+			<div class="list-group-item"><a class="btn btn-block btn-info" ng-click="tools.number.new()">New Number</a></div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="list-group">
+			<div class="list-group-item active">Endpoints</div>
+			<a class="list-group-item" ng-click="tools.endpoint.focus(endp)" ng-repeat="endp in endpoints">{{endp.alias}} - {{endp.number}}</a>
+			<div class="list-group-item"><a class="btn btn-block btn-info" ng-click="tools.endpoint.new()">New Endpoint</a></div>
+		</div>
+	</div>
+</div>

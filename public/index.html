@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!--<html manifest="offline.appcache"> -->
+<html>
+	<head>
+		<title>SouthTown Auto Repair & Sales</title>
+		<meta http-equiv="Content-Type" 		content="text/html; charset=utf-8">
+		<meta name="viewport" 					content="width=device-width, initial-scale=1.0">
+		<meta name="mobile-web-app-capable" 	content="yes">
+		<meta name="description" 				content="Serving Moab UT.">
+		<meta name="HandheldFriendly" 			content="True">
+		<meta name="MobileOptimized" 			content="320">
+		
+		<link rel="manifest" 						href="manifest.json">
+		<link rel="icon" 		type="image/ico" 	href="favicon.ico">
+		<link rel="icon" 		sizes="196x196" 	href="/static/img/icon/196.png">
+		<link rel="icon" 		sizes="128x128" 	href="/static/img/icon/128.png">
+		<link rel="icon" 		sizes="42x42" 		href="/static/img/icon/42.png">
+	
+		<!-- EXTERNAL CSS -->
+		<!--<link id="theme" rel="stylesheet" 	media="screen" 		href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.2/simplex/bootstrap.min.css">-->
+		<!--<link id="theme" rel="stylesheet" 	media="screen" 		href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.2/spacelab/bootstrap.min.css">-->
+		<link id="theme" rel="stylesheet" 	media="all" 		href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.7/darkly/bootstrap.min.css">
+		<!--<link id="theme" rel="stylesheet" 	media="screen" 		href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.6/lumen/bootstrap.min.css">-->
+		<link rel="stylesheet" 	media="all" 		href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css">
+		
+		<!-- INTERNAL CSS -->
+		<link rel="stylesheet" 	media="screen"		href="/static/css/screen.css">
+		<link rel="stylesheet" 	media="screen"		href="/static/css/animate.css">
+		<link rel="stylesheet" 	media="screen"		href="/static/css/vendor.css">
+		<link rel="stylesheet" 	media="print"		href="/static/css/print.css">
+		<link rel="stylesheet" 	media="screen"		href="/vendor/xeditable.css">
+		<link rel="stylesheet" 	media="screen"		href="/vendor/wow.css">
+		<link rel="stylesheet" 	media="screen"		href="/vendor/toastr/toastr.min.css">
+		
+		<!--[if !IE]> -->
+		<script type="text/javascript" src="https://cdn.polyfill.io/v1/polyfill.min.js"></script>
+		<script src="https://www.promisejs.org/polyfills/promise-7.0.1.min.js"></script>
+		<!-- <![endif]-->
+		
+		<!-- STARTING JS FILES -->
+	</head>
+	
+	
+	
+	<body ng-controller="SiteCtrl">
+		<header ng-include="'static/header.html'"></header>
+		<section class="view {{status}}" id="{{view}}" ng-view><h1 class="fancy">Loading...</h1></section>
+		<footer ng-include="'static/footer.html'"></footer>
+		<div ng-include="'static/modals.html'"></div>
+
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.14/require.min.js"></script>
+		<script type="text/javascript" src="/app/app.js"></script>
+	</body>
+</html>

@@ -1,0 +1,42 @@
+.bounceIn .ng-enter {
+	-webkit-animation: bounceIn 1.5s;
+	animation: bounceIn 1.5s;
+}
+.fadeIn .ng-enter {
+	-webkit-animation: fadeIn 1.5s;
+	animation: fadeIn 1.5s;
+}
+.fadeInLeft .ng-enter {
+	-webkit-animation: fadeInLeft 1.5s;
+	animation: fadeInLeft 1.5s;
+}
+
+
+
+
+
+
+.fadeOut .ng-leave {
+	-webkit-animation: fadeOut 1s;
+	animation: fadeOut 1s;
+}
+.fadeOutLeft .ng-leave {
+	-webkit-animation: fadeOutLeft 1s;
+	animation: fadeOutLeft 1s;
+}
+.flipOutX .ng-leave {
+	-webkit-animation: flipOutX 1s;
+	animation: flipOutX 1s;
+	display: block !important;
+}
+
+.bounceOut .ng-leave {
+	-webkit-animation: bounceOut 1s;
+	animation: bounceOut 1s;
+	display: block !important;
+}
+.bounceOutDown .ng-leave {
+	-webkit-animation: bounceOutDown 1s;
+	animation: bounceOutDown 1s;
+	display: block !important;
+}

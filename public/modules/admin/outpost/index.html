@@ -1,0 +1,73 @@
+<div class="container" ng-controller="AdminOutpostCtrl">
+	<div class="well">
+		<h1 class="wow slideInLeft" data-wow-delay="0.4s">Business Locations</h1>
+		<div class="row">
+
+			<div class="col-md-3 wow bounceIn" ng-repeat="outpost in outposts | orderBy:'createdAt'">
+				<div class="card-container manual-flip" ng-class="{hover: outpost.hover}">
+					<div class="btn-group btn-group-xs" role="group" aria-label="Outpost Action Buttons">
+						<button type="button" class="btn btn-default" ng-click="outpost.hover = !outpost.hover"><i class="fa fa-history"></i></button>
+						<a class="btn btn-info" target="_new" href="#/admin/outposts/{{outpost.objectId}}" ng-show="outpost.objectId"> <i class="fa fa-external-link"></i></a>
+					</div>
+					<div class="btn-group btn-group-xs pull-right" role="group" aria-label="Outpost Action Buttons">
+						<button type="button" class="btn btn-info" ng-click="outpost.public = false" ng-show="outpost.public"><i class="fa fa-unlock"></i></button>
+						<button type="button" class="btn btn-info" ng-click="outpost.public = true" ng-hide="outpost.public"><i class="fa fa-lock"></i></button>
+						<button type="button" class="btn btn-danger" ng-click="tools.outpost.delete(outpost)"><i class="fa fa-trash"></i></button>
+						<button type="button" class="btn btn-success" ng-click="tools.outpost.save(outpost)"><i class="fa fa-floppy-o"></i></button>
+					</div>
+
+					<form class="card">
+						<div class="front">
+							<div class="cover">
+								<div media-manager="tools.outpost.setHeadPic" class="media-manager" parent="outpost">
+									<div ng-hide="outpost.img.head" class="thumbnail fit">Location Picture</div>
+									<img ng-show="outpost.img.head" class="thumbnail fit" 
+									ng-class="outpost.img.head.class" 
+									ng-src="{{outpost.img.head.src}}" 
+									title="{{outpost.img.head.name}}">
+									<span class="clearfix" ng-show="outpost.img.head.temp">
+										Uploading picture... This may take a while.
+									</span>
+								</div>
+							</div>
+							<div class="weather">
+								<img ng-src="{{outpost.weather.icon}}"></img>
+								<br>
+								<span class="temperature">{{outpost.weather.data.main.temp}}</span>
+							</div>
+							<div class="content">
+								<div class="main">
+									<input type="text" class="form-control" placeholder="Title" ng-model="outpost.title">
+									<input type="text" class="form-control" placeholder="Address" ng-model="outpost.loc.address">
+									<input type="text" class="form-control" placeholder="City"  ng-model="outpost.loc.city">
+									<input type="text" class="form-control" placeholder="State"  ng-model="outpost.loc.state" ng-blur="tools.outpost.modify.weather(outpost)">
+									<input type="text" class="form-control" placeholder="Zip"  ng-model="outpost.loc.zip">
+								</div>
+							</div>
+						</div>
+						<div class="back">
+							<div class="cover">
+								<img src="static/images/rotating_card_thumb3.png" />
+							</div>
+							<div class="user">
+								<img class="img-circle" ng-src="{{Easy.map(outpost.geo, '100x100', 11)}}" ng-click="tools.outpost.modify.map(outpost)">
+							</div>
+							<div class="content">
+								<div class="main">
+									<input type="text" class="form-control" placeholder="Phone" ng-model="outpost.phone">
+									<input type="text" class="form-control" placeholder="Email" ng-model="outpost.email">
+									<hr>
+									<textarea class="form-control" rows="3" placeholder="Description" ng-model="outpost.description"></textarea>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<a class="btn btn-block btn-success" ng-click="tools.outpost.add()">Add Location</a>
+			</div>
+		</div>
+	</div>
+	<drawer></drawer>
+</div>

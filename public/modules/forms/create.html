@@ -1,0 +1,421 @@
+<div class="container" ng-controller="AdminFormsCreateCtrl" ng-show="form">
+	<loading ng-hide="form"></loading>
+	<nav class="navbar navbar-default" sticky sticky-top="52">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" ng-click="tools.modal('properties')">{{form.title}} ({{form.name}})</a>
+			</div>
+
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a ng-click="tools.form.acl()"><i class="fa fa-user-plus"></i></a></li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">File <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#/forms">Open</a></li>
+							<li><a ng-click="tools.form.new()">New</a></li>
+							<li><a ng-click="tools.form.copy()">Copy</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a target="_blank" href="#/admin/tables/{{form.name}}">Data</a></li>
+							<li><a target="_blank" href="#/forms/{{form.objectId}}?action=fill">Fill</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a ng-click="tools.item.undo()">Undo</a></li>
+							<li><a ng-click="tools.item.redo()">Redo</a></li>
+							<li><a ng-click="tools.form.save()">Save</a></li>
+							<li><a ng-click="tools.form.delete()">Delete</a></li>
+						</ul>
+					</li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tools <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a ng-click="tools.form.acl()">Share</a></li>
+							<li><a ng-click="tools.modal('properties')">Properties</a></li>
+							<li><a ng-click="tools.modal('workflow')">Workflow</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div class="row">
+		<div class="col-md-3">
+			<div class="clearfix" sticky sticky-top="104" sticky-media="(min-width:768px)">
+				<div class="panel panel-default" style="margin-bottom:100px;">
+					<div class="panel-heading">Add A Field</div>
+					<li class="list-group-item" ng-class="{disabled: !field.enabled}" ng-repeat="field in fieldOptions" ng-click="tools.field.add(field)">{{field.title}}</li>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="well" ng-show="form.p">
+				<p contenteditable ng-model="form.p">{{form.p}}</p>
+			</div>
+			<div class="well clearfix" ng-class="{highlight: form==fParent}">
+				<form class="clearfix" ng-click="tools.item.focus(form)">
+					<div class="form-dropzone" ng-show="dragItem" ng-click="tools.drop.complete(form)">
+						<p class="text-center">Move Here</p>
+					</div>
+					<div class="list-group parent animate-repeat" ng-repeat="field in form.fields" ng-click="tools.item.focus(field)">
+						<div class="list-group-item active" ng-show="field == focus">
+							<span class="move" ng-click="tools.drag.start(form,field,$event)"><i class="fa fa-arrows"></i></span>
+							<div class="btn-group btn-group-xs pull-right" role="group">
+								<a class="btn btn-default"><i class="fa fa-clone" title="Clone" ng-click="tools.item.copy(fParent.fields, field)"></i></a>
+								<a class="btn btn-default"><i class="fa fa-trash" title="Delete" ng-click="tools.item.remove(fParent.fields, field)"></i></a>
+							</div>
+						</div>
+						<div class="list-group-item" ng-class="{highlight: field==fParent}">
+							<div class="form-group" ng-if="!field.array" ng-include="field.type+'.field'"></div>
+							<div class="list-group" ng-if="field.array">
+								<div class="list-group-item">Array: {{field.title}}</div>
+								<div class="list-group-item">
+									<div class="form-group" ng-include="field.type+'.field'"></div>
+								</div>
+							</div>
+						</div>
+						<div class="form-dropzone" ng-show="dragItem" ng-click="tools.drop.complete(form,field)">
+							<p class="text-center">Move Here</p>
+						</div>
+					</div>
+					<button type="submit" class="btn btn-success pull-right" ng-click="tools.form.save()">Save</button>
+				</form>
+				<div class="well hidden-lg">
+					<label>Add A Field</label>
+					<select class="form-control" ng-model="addField" ng-options="field.title for field in fieldOptions" ng-change="tools.field.add(addField)"></select>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-3">
+			<div sticky sticky-top="104" sticky-media="(min-width:768px)">
+				<div class="panel panel-default" style="margin-bottom:100px;" ng-show="focus.type">
+					<div class="panel-heading">Details</div>
+					<div class="panel-body">
+						<div ng-include="focus.type+'.details'"></div>
+						<hr>
+						<div ng-hide="focus.type == 'form'">
+							<p><label for="isRequired"><input id="isRequired" type="checkbox" ng-model="focus.required"> Require</label></p>
+							<p><label for="isNotAuto"><input id="isNotAuto" type="checkbox" ng-model="focus.autoComplete"> History Suggest</label></p>
+							<p><label for="isHidden"><input id="isHidden" type="checkbox" ng-model="focus.hidden"> Hide</label></p>
+							<p><label for="asArray"><input id="asArray" type="checkbox" ng-model="focus.array"> Allow Multiple</label></p>
+							<p><label for="removeable" ng-show="focus.array"><input id="removeable" type="checkbox" ng-model="focus.removeable"> Allow Remove</label></p>
+							<p ng-repeat="link in focus.links">
+								<a ng-click="tools.field.editLink(focus, link)">{{link.text}}</a>
+								<i class="fa fa-trash pull-right" ng-click="tools.field.removeLink(focus, link)"></i>
+							</p>
+							<a ng-click="tools.field.addLink(focus)">Add A Link</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+	<div class="modal fade" id="properties" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Form Properties</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Title</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" placeholder="Title" ng-model="form.title">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Description</label>
+							<div class="col-sm-9">
+								<textarea class="form-control" placeholder="Description" ng-model="form.p"></textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Table</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" placeholder="table_id" ng-model="form.name" title="This defines the table to which the data will be saved.">
+							</div>
+						</div>
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" ng-model="form.properties.offlineButton"> Display Offline Button
+							</label>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Return</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="workflow" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Form Workflow</h4>
+				</div>
+				<div class="modal-body">
+					<div>
+						<!-- Nav tabs -->
+						<ul class="nav nav-tabs" role="tablist">
+							<li role="presentation" class="active"><a href="#email" aria-controls="email" role="tab" data-toggle="tab">Email</a></li>
+							<li role="presentation"><a href="#calendar" aria-controls="calendar" role="tab" data-toggle="tab">Calendar</a></li>
+							<li role="presentation"><a href="#onSubmit" aria-controls="onSubmit" role="tab" data-toggle="tab">On Submit</a></li>
+							<li role="presentation"><a href="#javascript" aria-controls="javascript" role="tab" data-toggle="tab">Advanced</a></li>
+						</ul>
+
+						<!-- Tab panes -->
+						<div class="tab-content">
+							<div role="tabpanel" class="tab-pane active" id="email">
+								<p class="alert alert-info">Send an email to notify someone when this form gets submitted.</p>
+								<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+									<div class="panel panel-default" ng-repeat="action in form.actions | filter:{type:'email'}">
+										<div class="panel-heading" role="tab" id="headingOne" title="Active: {{action.active}}">
+											<h4 class="panel-title">
+												<a role="button" data-toggle="collapse" data-parent="#accordion" href="#emailAction{{$index}}" aria-expanded="true" aria-controls="emailAction{{$index}}">
+													<span>Email To: {{action.to}}</span>
+												</a>
+												<span class="pull-right">
+													<i class="fa" ng-class="action.active ? 'fa-toggle-on' : 'fa-toggle-off'" ng-click="tools.workflow.toggle(action)"></i>
+													<i class="fa fa-trash" ng-click="tools.item.remove(form.actions, action)"></i>
+												</span>
+											</h4>
+										</div>
+										<div id="emailAction{{$index}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+											<div class="panel-body">
+												<form class="form-horizontal">
+													<div class="form-group">
+														<label class="col-sm-2 control-label">To: </label>
+														<div class="col-sm-10">
+															<input type="text" class="form-control" placeholder="Email" ng-model="action.to">
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label">Subject</label>
+														<div class="col-sm-10">
+															<input type="text" class="form-control" placeholder="Subject" ng-model="action.subject">
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label">Body</label>
+														<div class="col-sm-10">
+															<textarea class="form-control" ng-model="action.body"></textarea>
+														</div>
+													</div>
+												</form>
+												<p>You can use {{data.attr}} to use data as variables. (Works with: [to,subject,body])
+													<br>All variables will be parsed using an object with these properties: {form:{formObj}, data:{formData}, user:{userObj}}</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<a class="btn btn-info btn-block" ng-click="tools.item.add(form, 'actions', {type:'email',active:true})">Add Workflow</a>
+							</div>
+							<div role="tabpanel" class="tab-pane" id="calendar">
+								<p class="alert alert-info">When someone submits this form, an entry will be added to the following calendars.</p>
+								<div class="alert alert-warning" ng-hide="calendars">
+									<p>You will need to link your google account to utilize this feature. </p>
+									<ol>
+										<li><a target="_blank" href="{{user.tools.google.offlineLink()}}">Link Account</a></li>
+										<li><a ng-click="tools.workflow.loadCalendars()">Load Calendar List</a></li>
+									</ol>
+								</div>
+								<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+									<div class="panel panel-default" ng-repeat="action in form.actions | filter:{type:'calendar'}">
+										<div class="panel-heading" role="tab" id="headingOne" title="Active: {{action.active}}">
+											<h4 class="panel-title">
+												<a role="button" data-toggle="collapse" data-parent="#accordion" href="#calendarAction{{$index}}" aria-expanded="true" aria-controls="calendarAction{{$index}}">
+													<span>Add Event To: {{action.calendar.summary}}</span>
+												</a>
+												<span class="pull-right">
+													<i class="fa" ng-class="action.active ? 'fa-toggle-on' : 'fa-toggle-off'" ng-click="tools.workflow.toggle(action)"></i>
+													<i class="fa fa-trash" ng-click="tools.item.remove(form.actions, action)"></i>
+												</span>
+											</h4>
+										</div>
+										<div id="calendarAction{{$index}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+											<div class="panel-body">
+												<form class="form-horizontal">
+													<div class="form-group">
+														<label class="col-sm-2 control-label">Calendar: </label>
+														<div class="col-sm-10">
+															<select class="form-control" ng-model="action.calendar" ng-options="calendar as calendar.summary for calendar in calendars"></select>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label">Start Date</label>
+														<div class="col-sm-10">
+															<input type="text" class="form-control" ng-model="action.startDateCol" placeholder="columnName">
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label">End Date</label>
+														<div class="col-sm-10">
+															<input type="text" class="form-control" ng-model="action.endDateCol" placeholder="columnName">
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label">Title</label>
+														<div class="col-sm-10">
+															<input type="text" class="form-control" placeholder="Title" ng-model="action.title">
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label">Description</label>
+														<div class="col-sm-10">
+															<textarea class="form-control" ng-model="action.description"></textarea>
+														</div>
+													</div>
+												</form>
+												<p>You can use {{data.attr}} to use data as variables. (Works with: [title,description])
+													<br>All variables will be parsed using an object with these properties: {form:{formObj}, data:{formData}, user:{userObj}}</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<a class="btn btn-info btn-block" ng-click="tools.item.add(form, 'actions', {type:'calendar',active:true,userId:user.objectId})">Add Workflow</a>
+							</div>
+							<div role="tabpanel" class="tab-pane" id="onSubmit">
+								<form class="form-horizontal">
+									<div class="form-group">
+										<label class="col-sm-3 control-label">On Submit Message</label>
+										<div class="col-sm-9">
+											<textarea class="form-control" placeholder="Message" ng-model="form.onSubmit.message"></textarea>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">On Submit Html</label>
+										<div class="col-sm-9">
+											<textarea class="form-control" placeholder="HTML" ng-model="form.onSubmit.html"></textarea>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">On Submit Link</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" ng-model="form.onSubmit.link" placeholder="https://  http://  #/">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">Save User To Column</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" ng-model="form.onSubmit.savedBy" placeholder="savedBy, requestedBy, reviewedBy...">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">Save Date To Column</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" ng-model="form.onSubmit.savedOn" placeholder="savedOn, inspectedOn, createdOn...">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">Save Geo To Column</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" ng-model="form.onSubmit.savedAt" placeholder="savedAt, location...">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">Data Sharing</label>
+										<div class="col-sm-9">
+											<div class="well" ng-click="tools.onSubmit.acl()">{{form.onSubmit.ACL? 'Custom Sharing Set' : 'No Sharing Set'}}</div>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div role="tabpanel" class="tab-pane" id="javascript">
+								<form class="form-horizontal">
+									<div class="form-group">
+										<label class="col-sm-3 control-label">JavaScript</label>
+										<div class="col-sm-9">
+											<textarea class="form-control" placeholder="{onLoad: function(){}, onSubmit: function(){}, onReset: function()}" ng-model="form.js"></textarea>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Return</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="filePermissions" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">File Permissions</h4>
+				</div>
+				<div class="modal-body">
+					<p class="alert alert-info">Set permissions to share attached files with the following accounts.</p>
+					<div class="panel-group" id="filePermission" role="tablist" aria-multiselectable="true">
+						<div class="panel panel-default" ng-repeat="permission in focus.permissions">
+							<div class="panel-heading" role="tab" id="headingOne">
+								<h4 class="panel-title">
+									<a role="button" data-toggle="collapse" data-parent="#filePermission" href="#filePermission{{$index}}" aria-expanded="true" aria-controls="filePermission{{$index}}">
+										<span>Share File with: </span>
+										<span ng-show="permission.type=='domain'">{{permission.domain}}</span>
+										<span ng-hide="permission.type=='domain'">{{permission.emailAddress}}</span>
+									</a>
+									<span class="pull-right">
+										<i class="fa fa-trash" ng-click="tools.item.remove(focus.permissions, permission)"></i>
+									</span>
+								</h4>
+							</div>
+							<div id="filePermission{{$index}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+								<div class="panel-body">
+									<form class="form-horizontal">
+										<div class="form-group">
+											<label class="col-sm-2 control-label">Type: </label>
+											<div class="col-sm-10">
+												<select class="form-control" ng-model="permission.type" ng-options="t for t in gDefault.types"></select>
+											</div>
+										</div>
+										<div class="form-group" ng-show="permission.type == 'user' || permission.type == 'group'">
+											<label class="col-sm-2 control-label">Email</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control" placeholder="user@domain.com" ng-model="permission.emailAddress">
+											</div>
+										</div>
+										<div class="form-group" ng-show="permission.type == 'domain'">
+											<label class="col-sm-2 control-label">Domain</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control" placeholder="domain.com" ng-model="permission.domain">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">Access: </label>
+											<div class="col-sm-10">
+												<select class="form-control" ng-model="permission.role" ng-options="r for r in gDefault.roles"></select>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<a class="btn btn-info btn-block" ng-click="tools.item.add(focus, 'permissions', {})">Add Permissions</a>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Return</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,54 @@
+<div class="row">
+	<div class="col-md-3">
+		<div class="panel panel-default">
+			<div class="panel-heading">Documents</div>
+			<div class="list-group-item nowrap" ng-repeat="doc in pending" ng-click="tools.doc.focus(doc)">
+				<span>{{doc.name}}</span>
+			</div>
+			<div class="panel-footer"><a class="btn btn-block btn-default" ng-click="tools.upload.init()">Add</a></div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">Modified</div>
+			<div class="list-group-item nowrap" ng-repeat="doc in modified" ng-click="tools.doc.focus(doc)">
+				<span>{{doc.name}}</span>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<span contenteditable ng-model="doc.name" placeholder="Untitled File"></span>
+				<div class="dropdown pull-right">
+					<button class="btn btn-xs btn-inverse dropdown-toggle" type="button" id="docTools" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+					Doc <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="docTools">
+						<li><a ng-click="tools.fax.init(doc)"><i class="fa fa-fax" aria-hidden="true"></i> Send as Fax</a></li>
+						<li><a ng-click="tools.sign.init(doc)"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Request Signature</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a target="_new" href="{{doc.secure_url}}"><i class="fa fa-share-square-o" aria-hidden="true"></i> Open</a></li>
+						<li><a ng-click="tools.doc.acl(doc)"><i class="fa fa-share-alt" aria-hidden="true"></i> Share</a></li>
+						<li><a ng-click="tools.doc.save(doc)"><i class="fa fa-save"></i> Save</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="panel-body">
+				<img class="img-responsive" ng-src="{{doc.img_url}}" ng-click="tools.doc.focus(doc)">
+				<div class="list-group">
+					<a class="list-group-item" ng-repeat="s in signatures" target="_blank" href="/PDF?document_id={{s.items[0].document_id}}"><span ng-repeat="r in s.items[0].recipients">{{r.name}}, </span></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="panel panel-default">
+			<div class="panel-heading">Organize</div>
+			<div class="list-group-item" ng-repeat="f in folders">
+				<span ng-click="tools.folder.focus(f)">{{f.title}}</span>
+				<i class="fa fa-gears pull-right" ng-click="tools.folder.settings(f)"></i>
+			</div>
+			<div class="panel-footer"><a class="btn btn-block btn-default" ng-click="tools.folder.add()">Add Folder</a></div>
+		</div>
+	</div>
+</div>

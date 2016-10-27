@@ -1,0 +1,67 @@
+<div class="container-fluid" ng-controller="TestPDF">
+	<ul class="nav nav-tabs" role="tablist">
+		<li role="presentation" class="active"><a href="#mapping" aria-controls="mapping" role="tab" data-toggle="tab">Mapping</a></li>
+		<li role="presentation"><a href="#entries" aria-controls="entries" role="tab" data-toggle="tab">Entries</a></li>
+		<li role="presentation"><a href="#ocr" aria-controls="ocr" role="tab" data-toggle="tab">OCR</a></li>
+	</ul>
+
+	<div class="tab-content">
+		<div role="tabpanel" class="tab-pane active" id="mapping">
+			<div class="well">
+				<table class="table table-striped">
+					<tr>
+						<th>
+							<div class="input-group">
+								<input type="text" class="form-control" ng-model="pdfId" placeholder="PDF ID">
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button" ng-click="tools.load(pdfId)">Load PDF Schema</button>
+								</span>
+							</div>
+						</th>
+						<th>
+							<div class="input-group">
+								<select class="form-control" ng-model="database" ng-options="t as t.className for t in schema">Database</select>
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button" ng-click="tools.loadDb(database.className)">Load DB Schema</button>
+								</span>
+							</div>
+						</th>
+					</tr>
+					<tr ng-repeat="field in pdfFields" title="Type: {{field.type}}, Name: {{field.name}}">
+						<td>
+							<span>{{field.label}}</span> 
+							<span class="label label-warning pull-right" ng-show="{{field.required}}">Required</span>
+						</td>
+						<td>
+							Mapped Data Field
+						</td>
+					</tr>
+				</table>
+			</div>			
+		</div>
+		<div role="tabpanel" class="tab-pane" id="entries">
+			<div class="well">
+				<table class="table table-striped">
+					<tr>
+						<th>Actions</th>
+						<th ng-repeat="key in keys">{{key}}</th>
+					</tr>
+					<tr ng-repeat="entry in data">
+						<td>
+							<a class="btn btn-sm btn-warning" ng-click="tools.fill(pdfId, entry)">PDF</a>
+							<a class="btn btn-sm btn-success" href="/PDF?document_id={{entry._pdf_id}}" ng-show="entry._pdf_id">Download</a>
+						</td>
+						<td ng-repeat="key in keys">{{entry[key]}}</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div role="tabpanel" class="tab-pane" id="ocr">
+			<div class="well">
+				<input type="text" class="form-control" ng-model="ocrPdfUrl" placeholder="PDF Url">
+				<a class="btn btn-block btn-success" ng-click="tools.ocr.process(ocrPdfUrl)">Convert</a>
+				<p>{{ocr}}</p>
+			</div>
+		</div>
+	</div>
+</div>

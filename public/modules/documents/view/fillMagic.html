@@ -1,0 +1,38 @@
+<div class="panel panel-default" ng-init="tools.fill.list()">
+	<div class="panel-heading">
+		<span>PDF Magic Requests</span>
+	</div>
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="thumbnail">
+					<img class="img-responsive" ng-src="{{doc.img_url}}">
+				</div>
+			</div>
+			<div class="col-md-6">
+				<table class="table">
+					<tr>
+						<th>Requested By</th>
+						<th>Document Name</th>
+						<th>Tools</th>
+					</tr>
+					<tr ng-repeat="req in fillMagic" ng-click="tools.doc.focus(req.doc)">
+						<td>{{req.requestedBy}}</td>
+						<td>{{req.doc.name}}</td>
+						<td>
+							<div class="btn-group">
+								<button type="button" class="btn btn-inverse btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							    Action <span class="caret"></span>
+							  </button>
+								<ul class="dropdown-menu">
+									<li><a target="_new" href="https://www.pdffiller.com/en/project/{{req.doc.pdffiller.id}}">Edit PDF</a></li>
+									<li><a ng-click="tools.fill.remove(req)">Delete Request</a></li>
+								</ul>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,15 @@
+<!--<p>{{vault.entries}}</p>-->
+<div class="list-group" ng-init="tools.vault.compile()">
+	<div class="list-group-item active">Data</div>
+	<div class="list-group-item" ng-repeat="item in vaultStats">
+		<span>{{item.form.title}}</span>
+		<span class="label pull-right label-success" title="Synced">{{item.status.saved.length}}</span>
+		<span class="label pull-right label-danger" title="Problems">{{item.status.error.length}}</span>
+		<span class="label pull-right label-warning" title="Pending">{{item.status.undefined.length}}</span>
+		<span class="label pull-right label-info" title="Syncing">{{item.status.syncing.length}}</span>
+	</div>
+	<div class="list-group-item">
+		<a class="btn btn-block btn-danger" ng-click="tools.admin.entries.clear()">Clear All Entries</a>
+	</div>
+</div>
+<!--<a class="btn btn-lg btn-block btn-info" ng-click="tools.data.compile()">Compile Data</a>-->
