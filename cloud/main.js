@@ -1,5 +1,5 @@
-var moment 		= require('moment'),
-	express 	= require('express'),
+var express 	= require('express'),
+	moment 		= require('cloud/moment'),
 	CONFIG 		= require('cloud/config.js'),
 	COMMON 		= require('cloud/common.js'),
 	TXT 		= require('cloud/txt.js'),
