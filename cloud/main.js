@@ -1,1 +1,0 @@
-var stripe = require('cloud/stripe.js');
