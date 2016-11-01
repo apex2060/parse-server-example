@@ -1,0 +1,70 @@
+{
+  "name": "stripe-fire",
+  "version": "0.4.2",
+  "main": "lib/stripe-fire.js",
+  "description": "A Node.js module that handles Stripe API calls for Firebase references.",
+  "homepage": "https://github.com/davidcaseria/StripeFire",
+  "bugs": {
+    "url": "https://github.com/davidcaseria/StripeFire/issues"
+  },
+  "author": {
+    "name": "Dave",
+    "email": "davidcaseria@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/davidcaseria/StripeFire"
+  },
+  "license": "MIT",
+  "files": [
+    "lib"
+  ],
+  "keywords": [
+    "stripe-fire",
+    "stripe",
+    "firebase",
+    "payments",
+    "credit cards"
+  ],
+  "devDependencies": {
+    "chai": "~1.9.2",
+    "grunt-bump": "0.0.16",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-nodeunit": "^0.3.3",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-conventional-changelog": "^1.1.0",
+    "grunt-mocha-cli": "^1.9.0",
+    "jshint-stylish": "^0.2.0",
+    "load-grunt-tasks": "^0.4.0",
+    "time-grunt": "^0.3.1"
+  },
+  "scripts": {
+    "test": "grunt"
+  },
+  "dependencies": {
+    "firebase": "^2.0.6",
+    "hash-object": "~0.1.7",
+    "stripe": "~2.8.0"
+  },
+  "gitHead": "c364da08b4094cb2655ffd5a2cf0bab7985046bd",
+  "_id": "stripe-fire@0.4.2",
+  "_shasum": "f39cf7a105a9d46f344ea06ca71ac3dc69a82a9e",
+  "_from": "stripe-fire@",
+  "_npmVersion": "1.4.14",
+  "_npmUser": {
+    "name": "davidcaseria",
+    "email": "davidcaseria@gmail.com"
+  },
+  "maintainers": [
+    {
+      "name": "davidcaseria",
+      "email": "davidcaseria@gmail.com"
+    }
+  ],
+  "dist": {
+    "shasum": "f39cf7a105a9d46f344ea06ca71ac3dc69a82a9e",
+    "tarball": "https://registry.npmjs.org/stripe-fire/-/stripe-fire-0.4.2.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/stripe-fire/-/stripe-fire-0.4.2.tgz"
+}
