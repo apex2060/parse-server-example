@@ -1,7 +1,7 @@
-var CONFIG 		= require('cloud/config.js');
-var COMMON 		= require('cloud/common.js');
-var GOOGLE 		= require('cloud/google.js');
-var TIMELINE 	= require('cloud/communication/timeline.js');
+var CONFIG 		= require('./cloud/config.js');
+var COMMON 		= require('./cloud/common.js');
+var GOOGLE 		= require('./cloud/google.js');
+var TIMELINE 	= require('./cloud/communication/timeline.js');
 var _ 			= require('underscore');
 var Buffer = require('buffer').Buffer;
 

@@ -1,4 +1,4 @@
-var CONFIG 		= require('cloud/config.js');
+var CONFIG 		= require('./cloud/config.js');
 var Buffer = require('buffer').Buffer;
 
 var auth = 'Basic ' +new Buffer(CONFIG.KEY.STRIPE).toString('base64');

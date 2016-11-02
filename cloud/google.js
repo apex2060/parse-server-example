@@ -1,4 +1,4 @@
-var CONFIG = require('cloud/config.js');
+var CONFIG = require('./cloud/config.js');
 
 var tools = exports.tools = {
 	storeAuth: function(request, response){ //Obtains a refresh token from the auth code received by Google.

@@ -1,5 +1,5 @@
 var moment = require('moment'),
-	CONFIG = require('cloud/config.js')
+	CONFIG = require('./cloud/config.js')
  
 exports.savedBy = function(request){
 	console.log(request.User)

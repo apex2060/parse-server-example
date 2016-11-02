@@ -1,7 +1,7 @@
-var CONFIG = require('cloud/config.js');
-var CONTACT = require('cloud/communication/contact.js');
-var TIMELINE = require('cloud/communication/timeline.js');
-var DOC = require('cloud/communication/document.js');
+var CONFIG = require('./cloud/config.js');
+var CONTACT = require('./cloud/communication/contact.js');
+var TIMELINE = require('./cloud/communication/timeline.js');
+var DOC = require('./cloud/communication/document.js');
 var _ = require('underscore');
 
 Parse.Cloud.job("fbCoverse", function(request, status) {

@@ -1,5 +1,5 @@
 var moment 		= require('moment'),
-	GOOGLE 		= require('cloud/google.js')
+	GOOGLE 		= require('./cloud/google.js')
 
 exports.locations = function(request, response) {
 	Parse.Cloud.useMasterKey();

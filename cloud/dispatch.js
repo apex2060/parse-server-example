@@ -1,5 +1,5 @@
-var CONFIG 		= require('cloud/config.js'),
-	GOOGLE 		= require('cloud/google.js'),
+var CONFIG 		= require('./cloud/config.js'),
+	GOOGLE 		= require('./cloud/google.js'),
 	moment 		= require('moment')
 //www.insta-mapper.com/api-guide/
 

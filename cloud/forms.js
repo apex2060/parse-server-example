@@ -1,8 +1,8 @@
 var moment 		= require('moment')
-var CONFIG 		= require('cloud/config.js')
-var COMMON 		= require('cloud/common.js')
-var EMAIL 		= require('cloud/email.js')
-var GOOGLE 		= require('cloud/google.js')
+var CONFIG 		= require('./cloud/config.js')
+var COMMON 		= require('./cloud/common.js')
+var EMAIL 		= require('./cloud/email.js')
+var GOOGLE 		= require('./cloud/google.js')
 
 //Each user must have access to the data AND the form. 
 

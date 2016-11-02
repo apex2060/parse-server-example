@@ -1,4 +1,4 @@
-var CONFIG = require('cloud/config.js');
+var CONFIG = require('./cloud/config.js');
 
 var NEST  = {
 	register: function(request, response) {

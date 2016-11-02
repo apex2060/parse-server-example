@@ -1,5 +1,5 @@
 var twilio = require('twilio');
-var CONFIG = require('cloud/config.js')
+var CONFIG = require('./cloud/config.js')
 
 
 Parse.Cloud.define("sendSMS", function(request, response) {

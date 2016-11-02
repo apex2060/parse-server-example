@@ -1,5 +1,5 @@
 var mailgun = require('mailgun');
-var CONFIG = require('cloud/config.js')
+var CONFIG = require('./cloud/config.js')
 
 
 exports.send = function(packet) {

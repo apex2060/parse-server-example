@@ -1,24 +1,24 @@
 var moment 		= require('moment'),
 	express 	= require('express'),
-	CONFIG 		= require('cloud/config.js'),
-	COMMON 		= require('cloud/common.js'),
-	TXT 		= require('cloud/txt.js'),
-	EMAIL 		= require('cloud/email.js'),
-	FORMS 		= require('cloud/forms.js'),
-	GOOGLE 		= require('cloud/google.js'),
-	NEST 		= require('cloud/nest.js'),
-	DISPATCH 	= require('cloud/dispatch.js'),
-	MERAKI 		= require('cloud/meraki.js'),
-	STRIPE 		= require('cloud/financial/stripe.js')
+	CONFIG 		= require('./cloud/config.js'),
+	COMMON 		= require('./cloud/common.js'),
+	TXT 		= require('./cloud/txt.js'),
+	EMAIL 		= require('./cloud/email.js'),
+	FORMS 		= require('./cloud/forms.js'),
+	GOOGLE 		= require('./cloud/google.js'),
+	NEST 		= require('./cloud/nest.js'),
+	DISPATCH 	= require('./cloud/dispatch.js'),
+	MERAKI 		= require('./cloud/meraki.js'),
+	STRIPE 		= require('./cloud/financial/stripe.js')
 
 var tools = {
-	fb: 	require('cloud/communication/facebook.js'),
-	email: 	require('cloud/communication/email.js'),
-	fax: 	require('cloud/communication/fax.js'),
-	phone: 	require('cloud/communication/phone.js'),
-	snail: 	require('cloud/communication/snail.js'),
-	pdf: 	require('cloud/communication/pdf.js'),
-	plaid: 	require('cloud/financial/plaid.js')
+	fb: 	require('./cloud/communication/facebook.js'),
+	email: 	require('./cloud/communication/email.js'),
+	fax: 	require('./cloud/communication/fax.js'),
+	phone: 	require('./cloud/communication/phone.js'),
+	snail: 	require('./cloud/communication/snail.js'),
+	pdf: 	require('./cloud/communication/pdf.js'),
+	plaid: 	require('./cloud/financial/plaid.js')
 }
 
 
