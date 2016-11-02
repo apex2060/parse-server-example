@@ -13,7 +13,7 @@
     "kerberos": "~0.0.x",
     "stripe": "*",
     "moment": "*",
-    "mailgun": "*",
+    "mailgun": "*"
   },
   "scripts": {
     "start": "node index.js"
